@@ -70,7 +70,7 @@ public class HesselIntensifies {
             objInstrucao.setShamt(regs[2]);
         }
 
-        String resultado = objInstrucao.toHexa();
+        String resultado = InstructConversion.RtoHexa(objInstrucao);
         System.out.println(resultado);
 
     }

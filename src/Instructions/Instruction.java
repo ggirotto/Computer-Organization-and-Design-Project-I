@@ -7,7 +7,9 @@ package Instructions;
  */
 public abstract class Instruction {
     
-    private final 
+    protected final String opcode;
+    protected final String rs;
+    protected final String rt;
     
     public Instruction(String newOpcode, String newRs, String newRt)
     {
