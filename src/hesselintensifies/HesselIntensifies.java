@@ -85,22 +85,23 @@ public class HesselIntensifies {
         
         String opcode = enumOpcodes.valueOf(operacao).getValue();
         
-        //tipoI objInstrucao = new tipoI(operacao, opcode);
-        
         //Separa os registradores/valores
         String [] regs = parts[1].split(",");
         
-        objInstrucao.setRs(enumRegistradores.valueOf(regs[0]).ordinal()+"");
-        objInstrucao.setRt(enumRegistradores.valueOf(regs[1]).ordinal()+"");
-        
+        String rs = enumRegistradores.valueOf(regs[0]).ordinal()+"";
+        String rt = enumRegistradores.valueOf(regs[1]).ordinal()+"";
+        String immediate = "";
         if(regs[2].matches("[0-9]+")){
-            objInstrucao.setImediate(regs[2]);
+            immediate = regs[2];
         }
         else{
             String distancia = ""+(distanceLabels.get(regs[2]) - distanceInstructions.get(operacao));
-            objInstrucao.setImediate(distancia);
+            immediate = distancia;
         }
-        String resultado = objInstrucao.toHexa();
+        
+        tipoI objInstrucao = new tipoI(opcode, rs, rt, immediate);
+        
+        String resultado = InstructConversion.ItoHexa(objInstrucao);
         System.out.println(resultado);
         
     }

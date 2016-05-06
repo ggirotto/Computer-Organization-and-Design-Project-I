@@ -92,7 +92,7 @@ public class InstructConversion<InstructionType extends Instruction> {
         return finalString;
     }
     
-    public String ItoHexa(tipoI tipoI){
+    public static String ItoHexa(tipoI tipoI){
  
         String retorno = "0x";
         String total = "";
