@@ -8,13 +8,10 @@ package Instructions;
 public abstract class Instruction {
     
     protected final String opcode;
-    protected final String rs;
-    protected final String rt;
     
-    public Instruction(String newOpcode, String newRs, String newRt)
+    public Instruction(String newOpcode)
     {
         opcode=newOpcode;
-        rs=newRs;
-        rt=newRt;
     }
+    
 }
