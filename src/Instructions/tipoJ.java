@@ -11,12 +11,12 @@ package Instructions;
  */
 public class tipoJ extends Instruction {
     
-    protected final String address;
+    protected final String immediate;
     
-    public tipoJ(String newOpcode, String newAddress)
+    public tipoJ(String newOpcode, String newImmediate)
     {
         super(newOpcode);
-        address=newAddress;
+        immediate=newImmediate;
     }
     
 }

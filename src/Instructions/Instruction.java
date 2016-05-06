@@ -1,10 +1,5 @@
-
 package Instructions;
 
-/**
- *
- * @author 15105207
- */
 public abstract class Instruction {
     
     protected final String opcode;
