@@ -1,0 +1,4 @@
+add $t0,$t1,$t2
+addiu $t3,$t4,$t5
+lw $t2,0($sp)
+teste:
