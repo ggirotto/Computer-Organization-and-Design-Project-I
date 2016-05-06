@@ -54,22 +54,24 @@ public class HesselIntensifies {
         String opcode = enumOpcodes.valueOf(operacao).getValue();
 
         String funct = enumFuncts.valueOf(operacao).getValue();
-
-        tipoR objInstrucao = new tipoR(operacao, opcode, funct);
-
+        
         //Separa os registradores/valores
         String[] regs = parts[1].split(",");
-
-        objInstrucao.setRs((enumRegistradores.valueOf(regs[0]).ordinal())+"");
-        objInstrucao.setRt((enumRegistradores.valueOf(regs[1]).ordinal())+"");
-
+        
+        String rs = enumRegistradores.valueOf(regs[0]).ordinal()+"";
+        String rt = enumRegistradores.valueOf(regs[1]).ordinal()+"";
+        String rd = "";
+        String shamt = "0";
+        
         if (regs[2].contains("$")) {
-            objInstrucao.setRd(enumRegistradores.valueOf(regs[2]).ordinal()+"");
+            rd = enumRegistradores.valueOf(regs[2]).ordinal()+"";
         } else {
-            objInstrucao.setRd("0");
-            objInstrucao.setShamt(regs[2]);
+            rd = "0";
+            shamt = regs[2];
         }
-
+        
+        tipoR objInstrucao = new tipoR(opcode, rs, rt, rd, shamt, funct);
+        
         String resultado = InstructConversion.RtoHexa(objInstrucao);
         System.out.println(resultado);
 
@@ -83,7 +85,7 @@ public class HesselIntensifies {
         
         String opcode = enumOpcodes.valueOf(operacao).getValue();
         
-        tipoI objInstrucao = new tipoI(operacao, opcode);
+        //tipoI objInstrucao = new tipoI(operacao, opcode);
         
         //Separa os registradores/valores
         String [] regs = parts[1].split(",");
