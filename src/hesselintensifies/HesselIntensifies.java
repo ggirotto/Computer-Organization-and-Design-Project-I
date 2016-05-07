@@ -3,7 +3,6 @@ package hesselintensifies;
 import java.util.HashMap;
 import java.util.Map;
 import Enumerations.enumInstrucao;
-import hesselintensifies.calculateInstruction;
 import java.util.Scanner;
 
 public class HesselIntensifies {
@@ -18,11 +17,12 @@ public class HesselIntensifies {
      public static void main(String[] args){
         Scanner in = new Scanner(System.in);
         //Perguntar se quer passar de codigo para hexa ou de hexa para codigo
-        System.out.println("1. Código para Hexa");
-        System.out.println("2. Hexa para código");
+        //System.out.println("1. Código para Hexa");
+        //System.out.println("2. Hexa para código");
         // Salva todos os comandos em uma string grandona legal
-
-        String line = "bne $t0,$t1,teste";
+        distanceLabels.put("teste",13);
+        //distanceInstructions.put("j", 10);
+        String line = "j teste";
         
         // Chamar método apropriado
         instructionsToHexa(line);
@@ -63,7 +63,7 @@ public class HesselIntensifies {
                 distanceInstructions.put("jal",iteratorDistance);
                 iteratorDistance++;
             case ":":
-                distanceLabels.put("jal",iteratorDistance);
+                distanceLabels.put(line,iteratorDistance);
             default:
                 iteratorDistance++;
         }

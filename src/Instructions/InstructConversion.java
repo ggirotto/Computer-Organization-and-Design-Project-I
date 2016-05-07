@@ -29,10 +29,10 @@ public class InstructConversion<InstructionType extends Instruction> {
         String retorno = "004";
         
         // Converte a string value para hexa
-        String hexa = Integer.valueOf(String.valueOf(value), 16)+"";
+        String hexa = Integer.toHexString(Integer.parseInt(value));
         
         // Adiciona os 0's necessários para completar uma operação em hexa (8 bits)
-        for(int i=0; i<=(5-hexa.length()); i++) retorno += "0";
+        for(int i=0; i<=(4-hexa.length()); i++) retorno += "0";
         
         // Concatena a string com o valor em hexa
         retorno += hexa;
@@ -99,16 +99,22 @@ public class InstructConversion<InstructionType extends Instruction> {
             switch(calc){
                 case 10:
                     retorno += "A";
+                    break;
                 case 11:
                     retorno += "B";
+                    break;
                 case 12:
                     retorno += "C";
+                    break;
                 case 13:
                     retorno += "D";
+                    break;
                 case 14:
                     retorno += "E";
+                    break;
                 case 15:
                     retorno += "F";
+                    break;
                 default:
                     retorno += calc;
             }
@@ -135,8 +141,13 @@ public class InstructConversion<InstructionType extends Instruction> {
             Se o valor é negativo, faz o complemento de dois.
         */
         String newImmediate = "";
-        if(tipoI.immediate.matches("-[0-9]+")) newImmediate = twoComplement(toBinary(tipoI.immediate, 16));
-        total += toBinary(newImmediate, 16);
+        if(tipoI.immediate.matches("-[0-9]+")){
+            newImmediate = twoComplement(toBinary(tipoI.immediate, 16));
+        }
+        else{
+            newImmediate = toBinary(tipoI.immediate,16);
+        }
+       total += toBinary(newImmediate, 16);
         
         int i = 0;
         int base = 0;
@@ -157,16 +168,22 @@ public class InstructConversion<InstructionType extends Instruction> {
             switch(calc){
                 case 10:
                     retorno += "A";
+                    break;
                 case 11:
                     retorno += "B";
+                    break;
                 case 12:
                     retorno += "C";
+                    break;
                 case 13:
                     retorno += "D";
+                    break;
                 case 14:
                     retorno += "E";
+                    break;
                 case 15:
                     retorno += "F";
+                    break;
                 default:
                     retorno += calc;
             }
@@ -192,8 +209,8 @@ public class InstructConversion<InstructionType extends Instruction> {
         
         String newImmediate = "";
         // Passa o valor em hexa para binário:
-        for(int i=0; i<= immediate.length(); i++){
-            newImmediate = toBinary(immediate.charAt(i)+"", 4);
+        for(int i=0; i<= immediate.length()-1; i++){
+            newImmediate += toBinary(immediate.charAt(i)+"", 4);
         }
         
         // Retira os 4 mais significativos e os dois menos
@@ -221,16 +238,22 @@ public class InstructConversion<InstructionType extends Instruction> {
             switch(calc){
                 case 10:
                     retorno += "A";
+                    break;
                 case 11:
                     retorno += "B";
+                    break;
                 case 12:
                     retorno += "C";
+                    break;
                 case 13:
                     retorno += "D";
+                    break;
                 case 14:
                     retorno += "E";
+                    break;
                 case 15:
                     retorno += "F";
+                    break;
                 default:
                     retorno += calc;
             }
