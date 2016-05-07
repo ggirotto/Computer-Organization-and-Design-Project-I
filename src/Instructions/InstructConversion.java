@@ -25,6 +25,20 @@ public class InstructConversion<InstructionType extends Instruction> {
         return retorno;
     }
     
+    public static String toHexa(String value){
+        String retorno = "004";
+        
+        // Converte a string value para hexa
+        String hexa = Integer.valueOf(String.valueOf(value), 16)+"";
+        
+        // Adiciona os 0's necessários para completar uma operação em hexa (8 bits)
+        for(int i=0; i<=(5-hexa.length()); i++) retorno += "0";
+        
+        // Concatena a string com o valor em hexa
+        retorno += hexa;
+        return retorno;
+    }
+    
     public static String twoComplement(String imediate){
         int bin = Integer.parseInt(imediate);
         String binario = Integer.toBinaryString(bin);
@@ -166,15 +180,28 @@ public class InstructConversion<InstructionType extends Instruction> {
     }
     
     public static String JtoHexa(tipoJ tipoJ){
- 
         // Cria a string que os valores serão concatenados formando o hexa final
         String retorno = "0x";
         
         // Armazena os valores em binario na string total
         String total = "";
         total += toBinary(tipoJ.opcode, 6);
-        total += toBinary(tipoJ.immediate, 26);
         
+        // Passa o valor imediato para hexadecimal:
+        String immediate = toHexa(tipoJ.immediate);
+        
+        String newImmediate = "";
+        // Passa o valor em hexa para binário:
+        for(int i=0; i<= immediate.length(); i++){
+            newImmediate = toBinary(immediate.charAt(i)+"", 4);
+        }
+        
+        // Retira os 4 mais significativos e os dois menos
+        String finalImmediate = newImmediate.substring(4,newImmediate.length()-2);
+        
+        // Concatena junto com o opcode na string total
+        total += finalImmediate;
+
         int i = 0;
         int base = 0;
         int calc = 0;
