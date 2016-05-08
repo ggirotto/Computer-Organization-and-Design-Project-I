@@ -1,6 +1,6 @@
 package Instructions;
 
-public class InstructConversion<InstructionType extends Instruction> {
+public abstract class InstructConversion{
     
     public static String toBinary(String valor, int nroCaracteres){
         // Converte o valor para inteiro
@@ -45,12 +45,12 @@ public class InstructConversion<InstructionType extends Instruction> {
             base = 1;
         }
         for(int i=newString.length()-2; i>=0; i--){
-            if(newString.charAt(i) == 1 && base == 1){
+            if(newString.charAt(i) == '1' && base == 1){
                 finalString += "0";
                 base = 1;
-            }else if(newString.charAt(i) == 1 && base == 0){
+            }else if(newString.charAt(i) == '1' && base == 0){
                 finalString += "1";
-            }else if(newString.charAt(i) == 0 && base == 1){
+            }else if(newString.charAt(i) == '0' && base == 1){
                 finalString += "1";
                 base = 0;
             }else finalString += newString.charAt(i);
@@ -65,7 +65,7 @@ public class InstructConversion<InstructionType extends Instruction> {
         // Converte a string value para hexa
         String hexa = Integer.toHexString(Integer.parseInt(value));
         
-        // Adiciona os 0's necessários para completar uma operação em hexa (8 bits)
+        // Adiciona os 0's necessários para completar uma operação em hexa (8 byts)
         for(int i=0; i<=(4-hexa.length()); i++) retorno += "0";
         
         // Concatena a string com o valor em hexa
@@ -319,4 +319,12 @@ public class InstructConversion<InstructionType extends Instruction> {
         
         return retorno;
     }
+    
+    public static int binaryToInt(String valueAsBinary)
+    {
+        if(valueAsBinary.length()==1) return Integer.parseInt(valueAsBinary,2);
+        if(valueAsBinary.charAt(0)=='1') return binaryToInt(twoComplement(valueAsBinary));
+        return Integer.parseInt(valueAsBinary,2);
+    }
+    
 }

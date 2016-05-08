@@ -3,21 +3,13 @@ package hesselintensifies;
 import Enumerations.*;
 import Instructions.*;
 
-
 public class calculateInstruction {
     // Método para operações do tipo R (instruct to hexa)
     public static void opTipoR(String line) {
-        // Separa as informações da linha por espaço
-        String[] parts = line.split(" ");
-
-        // Pega a operação (exemplo: add)
+  
+        String[] parts = line.split(" "); 
         String operacao = parts[0];
-
-        // Pega o opcode da operação acima
-        String opcode = enumInstrucao.valueOf(operacao).getOpcode();
-
-        // Pega o funct da operação acima
-        
+        String opcode = enumInstrucao.valueOf(operacao).getOpcode();        
         String funct = enumInstrucao.valueOf(operacao).getFunct();
         
         //Separa os registradores/valores
@@ -43,15 +35,11 @@ public class calculateInstruction {
             shamt = regs[2];
         }
 
-        // Cria o objeto com todas as informações necessárias
         tipoR objInstrucao = new tipoR(opcode, rs, rt, rd, shamt, funct);
 
         // Utiliza as informações armazenadas no objeto para converter a instrução em hexa
         String resultado = InstructConversion.RtoHexa(objInstrucao);
-
-        // Imprime o resultado
         System.out.println(resultado);
-
     }
 
     // Método para operações do tipo R (hexa to instruct)
@@ -101,6 +89,7 @@ public class calculateInstruction {
     }
 
     // Método para operações do tipo I (instruct to hexa)
+    // Método para operações do tipo I (instruct to hexa)
     public static void opTipoI(String line){
          // Separa as informações da linha por espaço
         String [] parts = line.split(" ");
@@ -132,7 +121,7 @@ public class calculateInstruction {
         else{
             String distancia = ""+(HesselIntensifies.distanceLabels.get(regs[2]) - HesselIntensifies.distanceInstructions.get(operacao));
             if(distancia.matches("[0-9]+")) distancia = Integer.parseInt(distancia)-1+"";
-            else distancia = Integer.parseInt(distancia)+1+"";
+            else distancia = Integer.parseInt(distancia)-1+"";
             String aux = rs;
             rs = rt;
             rt = aux;
@@ -148,6 +137,33 @@ public class calculateInstruction {
         // Imprime o resultado
         System.out.println(resultado);
 
+    }
+    
+    public static void opTipoIH(String IInstructionAsHexa)
+    {
+        /*Converte o hexa para binário (facilita a manipulação)
+        e captura as partes da instrução:
+        > opcode (6 bits)
+        > rs (5 bits)
+        > rd (5 bits)
+        > immediate (16 bits)
+        */
+        String IInstructionAsBinary = InstructConversion.hexaToBinary(IInstructionAsHexa);
+        String IInstructionAsString = "";
+        
+        String opcode = IInstructionAsBinary.substring(0,6);
+        String rs = IInstructionAsBinary.substring(6,11);
+        String rt = IInstructionAsBinary.substring(11,16);
+        String immediate = IInstructionAsBinary.substring(16,32);
+        
+        for(enumInstrucao instruction : enumInstrucao.values())
+            //Procura por uma instrução no enum com o mesmo opcode
+            if(Integer.parseInt(instruction.getOpcode())==Integer.parseInt(opcode,2)) IInstructionAsString+=instruction.toString()+" ";
+        
+        IInstructionAsString+= enumRegistradores.values()[InstructConversion.binaryToInt(rs)].toString()+",";
+        IInstructionAsString+= enumRegistradores.values()[InstructConversion.binaryToInt(rt)].toString()+",";
+        IInstructionAsString+= InstructConversion.binaryToInt(immediate);
+        System.out.println(IInstructionAsString);
     }
 
     public static void opTipoJ(String line){
