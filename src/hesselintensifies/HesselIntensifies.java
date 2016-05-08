@@ -2,7 +2,8 @@ package hesselintensifies;
 
 import java.util.HashMap;
 import java.util.Map;
-import Enumerations.enumInstrucao;
+import Instructions.InstructConversion;
+import Enumerations.*;
 import java.util.Scanner;
 
 public class HesselIntensifies {
@@ -20,8 +21,8 @@ public class HesselIntensifies {
         //System.out.println("1. Código para Hexa");
         //System.out.println("2. Hexa para código");
         // Salva todos os comandos em uma string grandona legal
-        distanceLabels.put("teste",13);
-        //distanceInstructions.put("j", 10);
+        distanceLabels.put("teste",15);
+        distanceInstructions.put("j",4);
         String line = "j teste";
         
         // Chamar método apropriado
@@ -45,6 +46,45 @@ public class HesselIntensifies {
             calculateInstruction.opTipoJ(line);
         }
 
+    }
+    
+    public static void hexaToInstructions(String line){
+        String binario = InstructConversion.hexaToBinary(line);
+        
+        String opcode = binario.substring(0,6);
+        String funct = binario.substring(26,32);
+        
+        String decimalOpcode = Integer.parseInt(opcode,2)+"";
+        String decimalFunct = Integer.parseInt(funct, 2)+"";
+        
+        // Verifica se só possui uma instrução com o opcode
+        int cont = 0;
+        for (enumInstrucao opc : enumInstrucao.values()) {
+            if(opc.getOpcode().equals(decimalOpcode)){
+                opcode = opc+"";
+                cont++;
+            }
+        }
+        
+        // Se tiver mais de uma instrução com o mesmo opcode, usa o funct para pegar a correta
+        if(cont > 1){
+            for (enumInstrucao func : enumInstrucao.values()) {
+                if(func.getFunct().equals(decimalFunct)){
+                    opcode = func+"";
+                    break;
+                }
+            }
+        }
+        
+        // Verifica o tipo da instrução e chama o método apropriado
+        if (enumInstrucao.valueOf(opcode).getTipo().equals("R")) {
+            calculateInstruction.opTipoRH(binario, opcode);
+        } else if (enumInstrucao.valueOf(opcode).getTipo().equals("I")) {
+            //calculateInstruction.opTipoIH(line);
+        } else {
+            //calculateInstruction.opTipoJH(line);
+        }
+        
     }
     
     // Salva a distancia das labels e das operações que utilizam labels nos hashmaps

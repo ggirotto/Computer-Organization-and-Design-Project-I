@@ -17,17 +17,17 @@ public enum enumInstrucao {
     sw("I","43","0"),
     sltiu("I","11","0");
     
-    private final String tipoInstrucao,valorOpcode,valorShamt;
+    private final String tipoInstrucao,valorOpcode,valorFunct;
     
-    enumInstrucao(String newTipo, String newOpcode, String newShamt){
+    enumInstrucao(String newTipo, String newOpcode, String newFunct){
         tipoInstrucao = newTipo;
         valorOpcode = newOpcode;
-        valorShamt = newShamt;
+        valorFunct = newFunct;
     }
      
     public String getTipo(){return tipoInstrucao;}
     
     public String getOpcode(){return valorOpcode;}
     
-    public String getShamt(){return valorShamt;}
+    public String getFunct(){return valorFunct;}
 }

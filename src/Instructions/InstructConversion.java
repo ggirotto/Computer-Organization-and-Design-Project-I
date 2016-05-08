@@ -7,7 +7,10 @@ public class InstructConversion<InstructionType extends Instruction> {
         int bin = Integer.parseInt(valor);
         
         // Passa para string novamente em valor binário
-        String binario = Integer.toBinaryString(bin);
+        String binario;
+        if(valor.matches("-[0-9]+")) bin = Math.abs(-bin);
+        
+        binario = Integer.toBinaryString(bin);
         
         String retorno = "";
         
@@ -22,7 +25,38 @@ public class InstructConversion<InstructionType extends Instruction> {
         
         // Adiciona o código cnovertido para binário aos 0's já adicionados
         retorno += binario;
+        if(valor.matches("-[0-9]+")) return twoComplement(retorno);
         return retorno;
+    }
+    
+    public static String twoComplement(String immediate){
+        String binario = immediate;
+        String newString = "";
+        for(int i=0; i<=binario.length()-1; i++){
+            if(binario.charAt(i)=='0') newString += "1";
+            if(binario.charAt(i)=='1') newString += "0";
+        }
+        String finalString = "";
+        int base = 0;
+        if(newString.charAt(newString.length()-1) == '0'){
+            finalString += "1";
+        }else{
+            finalString += "0";
+            base = 1;
+        }
+        for(int i=newString.length()-2; i>=0; i--){
+            if(newString.charAt(i) == 1 && base == 1){
+                finalString += "0";
+                base = 1;
+            }else if(newString.charAt(i) == 1 && base == 0){
+                finalString += "1";
+            }else if(newString.charAt(i) == 0 && base == 1){
+                finalString += "1";
+                base = 0;
+            }else finalString += newString.charAt(i);
+        }
+        String reverse = new StringBuffer(finalString).reverse().toString();
+        return reverse;
     }
     
     public static String toHexa(String value){
@@ -39,30 +73,38 @@ public class InstructConversion<InstructionType extends Instruction> {
         return retorno;
     }
     
-    public static String twoComplement(String imediate){
-        int bin = Integer.parseInt(imediate);
-        String binario = Integer.toBinaryString(bin);
-        String newString = "";
-        for(int i=0; i<=binario.length(); i++){
-            if(binario.charAt(i)=='0') newString += "1";
-            if(binario.charAt(i)=='1') newString += "0";
-        }
-        String finalString = "";
-        int aux = 0;
-        for(int i=newString.length(); i>=0; i--){
-            if(newString.charAt(i) == 1 && aux == 1){
-                finalString += "0";
-                aux = 1;
-                continue;
+    public static String hexaToBinary(String line){
+        String newLine = line.substring(2,line.length());
+        String total = "";
+        String j;
+        for(int i=0; i<= newLine.length()-1; i++){
+            j = newLine.charAt(i)+"";
+            if(j.matches("[0-9]+")) total += toBinary(j,4);
+            else {
+                switch(j){
+                    case "a":
+                        total += toBinary("10",4);
+                        break;
+                    case "b":
+                        total += toBinary("11",4);
+                        break;
+                    case "c":
+                        total += toBinary("12",4);
+                        break;
+                    case "d":
+                        total += toBinary("13",4);
+                        break;
+                    case "e":
+                        total += toBinary("14",4);
+                        break;
+                    case "f":
+                        total += toBinary("15",4);
+                        break;
+                    
+                }
             }
-            if(newString.charAt(i) == 0 && aux == 1){
-                finalString += "1";
-                aux = 0;
-                continue;
-            }
-            finalString += "0";
         }
-        return finalString;
+        return total;
     }
     
     public static String RtoHexa(tipoR tipoR){
@@ -75,9 +117,9 @@ public class InstructConversion<InstructionType extends Instruction> {
         total += toBinary(tipoR.opcode, 6);
         total += toBinary(tipoR.rs, 5);
         total += toBinary(tipoR.rt, 5);
-        total += toBinary(tipoR.opcode, 5);
-        total += toBinary(tipoR.opcode, 5);
-        total += toBinary(tipoR.opcode, 6);
+        total += toBinary(tipoR.rd, 5);
+        total += toBinary(tipoR.shamt, 5);
+        total += toBinary(tipoR.funct, 6);
         
         
         int i = 0;
@@ -135,19 +177,9 @@ public class InstructConversion<InstructionType extends Instruction> {
         // Armazena os valores em binario na string total
         String total = "";
         total += toBinary(tipoI.opcode, 6);
-        total += toBinary(tipoI.rs, 5);
         total += toBinary(tipoI.rt, 5);
-        /*
-            Se o valor é negativo, faz o complemento de dois.
-        */
-        String newImmediate = "";
-        if(tipoI.immediate.matches("-[0-9]+")){
-            newImmediate = twoComplement(toBinary(tipoI.immediate, 16));
-        }
-        else{
-            newImmediate = toBinary(tipoI.immediate,16);
-        }
-       total += toBinary(newImmediate, 16);
+        total += toBinary(tipoI.rs, 5);
+        total += toBinary(tipoI.immediate, 16);
         
         int i = 0;
         int base = 0;
@@ -210,7 +242,29 @@ public class InstructConversion<InstructionType extends Instruction> {
         String newImmediate = "";
         // Passa o valor em hexa para binário:
         for(int i=0; i<= immediate.length()-1; i++){
-            newImmediate += toBinary(immediate.charAt(i)+"", 4);
+            switch(immediate.charAt(i)){
+                case 'a':
+                    newImmediate += toBinary("10",4);
+                    break;
+                case 'b':
+                    newImmediate += toBinary("11",4);
+                    break;
+                case 'c':
+                    newImmediate += toBinary("12",4);
+                    break;
+                case 'd':
+                    newImmediate += toBinary("13",4);
+                    break;
+                case 'e':
+                    newImmediate += toBinary("14",4);
+                    break;
+                case 'f':
+                    newImmediate += toBinary("15",4);
+                    break;
+                default:
+                    newImmediate += toBinary(immediate.charAt(i)+"", 4);
+                
+            }
         }
         
         // Retira os 4 mais significativos e os dois menos
