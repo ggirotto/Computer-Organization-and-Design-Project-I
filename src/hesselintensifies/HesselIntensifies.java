@@ -26,7 +26,8 @@ public class HesselIntensifies {
         String line = "j teste";
         
         // Chamar método apropriado
-        instructionsToHexa(line);
+        //instructionsToHexa(line);
+        calculateInstruction.opTipoIH("0x24ea7ffe");
     }
 
     public static void instructionsToHexa(String line) {

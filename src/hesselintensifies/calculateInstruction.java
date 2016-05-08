@@ -157,10 +157,10 @@ public class calculateInstruction {
         
         for(enumInstrucao instruction : enumInstrucao.values())
             //Procura por uma instrução no enum com o mesmo opcode
-            if(instruction.getOpcode().equals(opcode)) IInstructionAsString+=instruction.toString();
+            if(Integer.parseInt(instruction.getOpcode())==Integer.parseInt(opcode,2)) IInstructionAsString+=instruction.toString()+" ";
         
-        IInstructionAsString+= enumRegistradores.values()[InstructConversion.binaryToInt(rs)].toString();
-        IInstructionAsString+= enumRegistradores.values()[InstructConversion.binaryToInt(rt)].toString();
+        IInstructionAsString+= enumRegistradores.values()[InstructConversion.binaryToInt(rs)].toString()+",";
+        IInstructionAsString+= enumRegistradores.values()[InstructConversion.binaryToInt(rt)].toString()+",";
         IInstructionAsString+= InstructConversion.binaryToInt(immediate);
         System.out.println(IInstructionAsString);
     }

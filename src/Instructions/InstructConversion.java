@@ -65,7 +65,7 @@ public abstract class InstructConversion{
         // Converte a string value para hexa
         String hexa = Integer.toHexString(Integer.parseInt(value));
         
-        // Adiciona os 0's necessários para completar uma operação em hexa (8 bits)
+        // Adiciona os 0's necessários para completar uma operação em hexa (8 byts)
         for(int i=0; i<=(4-hexa.length()); i++) retorno += "0";
         
         // Concatena a string com o valor em hexa
