@@ -1,6 +1,6 @@
 package Instructions;
 
-public class InstructConversion<InstructionType extends Instruction> {
+public abstract class InstructConversion{
     
     public static String toBinary(String valor, int nroCaracteres){
         // Converte o valor para inteiro
@@ -319,4 +319,12 @@ public class InstructConversion<InstructionType extends Instruction> {
         
         return retorno;
     }
+    
+    public static int binaryToInt(String valueAsBinary)
+    {
+        if(valueAsBinary.length()==1) return Integer.parseInt(valueAsBinary,2);
+        if(valueAsBinary.charAt(0)=='1') return binaryToInt(twoComplement(valueAsBinary));
+        return Integer.parseInt(valueAsBinary,2);
+    }
+    
 }
