@@ -37,9 +37,9 @@ public class HesselIntensifies {
         String operacao = parts[0];
         
         // Verifica o tipo da instrução e chama o método apropriado
-        if (enumInstrucao.valueOf(operacao).getValue().equals("R")) {
+        if (enumInstrucao.valueOf(operacao).getTipo().equals("R")) {
             calculateInstruction.opTipoR(line);
-        } else if (enumInstrucao.valueOf(operacao).getValue().equals("I")) {
+        } else if (enumInstrucao.valueOf(operacao).getTipo().equals("I")) {
             calculateInstruction.opTipoI(line);
         } else {
             calculateInstruction.opTipoJ(line);

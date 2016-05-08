@@ -1,29 +1,33 @@
 package Enumerations;
 
 public enum enumInstrucao {
-    add("R"),
-    addi("I"),
-    addu("R"),
-    addiu("I"),
-    sll("R"),
-    srl("R"),
-    and("R"),
-    beq("I"),
-    bne("I"),
-    slt("I"),
-    andi("I"),
-    j("J"),
-    lw("I"),
-    sw("I"),
-    sltiu("I");
+    add("R","0","32"),
+    addi("I","8","0"),
+    addu("R","0","33"),
+    addiu("I","9","0"),
+    sll("R","0","0"),
+    srl("R","0","2"),
+    and("R","0","36"),
+    beq("I","4","0"),
+    bne("I","5","0"),
+    slt("I","0","42"),
+    andi("I","12","0"),
+    j("J","2","0"),
+    lw("I","36","0"),
+    sw("I","43","0"),
+    sltiu("I","11","0");
     
-    private String valorInstrucao;
+    private final String tipoInstrucao,valorOpcode,valorShamt;
     
-    enumInstrucao(String newData){
-        valorInstrucao = newData;
+    enumInstrucao(String newTipo, String newOpcode, String newShamt){
+        tipoInstrucao = newTipo;
+        valorOpcode = newOpcode;
+        valorShamt = newShamt;
     }
+     
+    public String getTipo(){return tipoInstrucao;}
     
-    public String getValue(){
-        return valorInstrucao;
-    }
+    public String getOpcode(){return valorOpcode;}
+    
+    public String getShamt(){return valorShamt;}
 }

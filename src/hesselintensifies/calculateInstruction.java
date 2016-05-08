@@ -1,12 +1,7 @@
 package hesselintensifies;
 
-import Enumerations.enumFuncts;
-import Enumerations.enumOpcodes;
-import Enumerations.enumRegistradores;
-import Instructions.InstructConversion;
-import Instructions.tipoI;
-import Instructions.tipoJ;
-import Instructions.tipoR;
+import Enumerations.*;
+import Instructions.*;
 
 
 public class calculateInstruction {
@@ -19,10 +14,10 @@ public class calculateInstruction {
         String operacao = parts[0];
         
         // Pega o opcode da operação acima
-        String opcode = enumOpcodes.valueOf(operacao).getValue();
+        String opcode = enumInstrucao.valueOf(operacao).getOpcode();
 
         // Pega o funct da operação acima
-        String funct = enumFuncts.valueOf(operacao).getValue();
+        String funct = enumInstrucao.valueOf(operacao).getShamt();
         
         //Separa os registradores/valores
         String[] regs = parts[1].split(",");
@@ -66,7 +61,7 @@ public class calculateInstruction {
         String operacao = parts[0];
         
         // Pega o opcode da operação acima
-        String opcode = enumOpcodes.valueOf(operacao).getValue();
+        String opcode = enumInstrucao.valueOf(operacao).getOpcode();
         
         //Separa os registradores/valores
         String [] regs = parts[1].split(",");
@@ -109,7 +104,7 @@ public class calculateInstruction {
         String operacao = parts[0];
         
         // Pega o opcode da operação acima
-        String opcode = enumOpcodes.valueOf(operacao).getValue();
+        String opcode = enumInstrucao.valueOf(operacao).getOpcode();
         
         // Pega a label
         String label = parts[1];
