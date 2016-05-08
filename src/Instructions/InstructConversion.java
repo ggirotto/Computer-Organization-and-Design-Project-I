@@ -45,12 +45,12 @@ public abstract class InstructConversion{
             base = 1;
         }
         for(int i=newString.length()-2; i>=0; i--){
-            if(newString.charAt(i) == 1 && base == 1){
+            if(newString.charAt(i) == '1' && base == 1){
                 finalString += "0";
                 base = 1;
-            }else if(newString.charAt(i) == 1 && base == 0){
+            }else if(newString.charAt(i) == '1' && base == 0){
                 finalString += "1";
-            }else if(newString.charAt(i) == 0 && base == 1){
+            }else if(newString.charAt(i) == '0' && base == 1){
                 finalString += "1";
                 base = 0;
             }else finalString += newString.charAt(i);

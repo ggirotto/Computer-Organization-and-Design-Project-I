@@ -89,6 +89,7 @@ public class calculateInstruction {
     }
 
     // Método para operações do tipo I (instruct to hexa)
+    // Método para operações do tipo I (instruct to hexa)
     public static void opTipoI(String line){
          // Separa as informações da linha por espaço
         String [] parts = line.split(" ");
@@ -120,7 +121,7 @@ public class calculateInstruction {
         else{
             String distancia = ""+(HesselIntensifies.distanceLabels.get(regs[2]) - HesselIntensifies.distanceInstructions.get(operacao));
             if(distancia.matches("[0-9]+")) distancia = Integer.parseInt(distancia)-1+"";
-            else distancia = Integer.parseInt(distancia)+1+"";
+            else distancia = Integer.parseInt(distancia)-1+"";
             String aux = rs;
             rs = rt;
             rt = aux;
