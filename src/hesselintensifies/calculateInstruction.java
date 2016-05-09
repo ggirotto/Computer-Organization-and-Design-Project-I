@@ -63,13 +63,13 @@ public class calculateInstruction {
 
         // Faz a busca nos enumeradores pelos registradores
         for (enumRegistradores opc : enumRegistradores.values()) {
-            if(opc.getValue().equals(rs)){
+            if(opc.ordinal()==Integer.parseInt(rs)){
                 rs = opc+"";
             }
-            else if(opc.getValue().equals(rt)){
+            else if(opc.ordinal()==Integer.parseInt(rt)){
                 rt = opc+"";
             }
-            else if(opc.getValue().equals(rd)){
+            else if(opc.ordinal()==Integer.parseInt(rd)){
                 rd = opc+"";
             }
         }
