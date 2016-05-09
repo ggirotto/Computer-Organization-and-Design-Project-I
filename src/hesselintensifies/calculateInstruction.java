@@ -89,7 +89,6 @@ public class calculateInstruction {
     }
 
     // Método para operações do tipo I (instruct to hexa)
-    // Método para operações do tipo I (instruct to hexa)
     public static void opTipoI(String line){
          // Separa as informações da linha por espaço
         String [] parts = line.split(" ");
@@ -106,25 +105,29 @@ public class calculateInstruction {
 
         // Resgata o valor em decimal dos registradores da operação
         String rs = enumRegistradores.valueOf(regs[0]).ordinal()+"";
-        String rt = enumRegistradores.valueOf(regs[1]).ordinal()+"";
+        String rt;
+        if(regs[1].contains("$sp")){
+            rt = regs[1];
+        }else rt = enumRegistradores.valueOf(regs[1]).ordinal()+"";
 
         String immediate;
 
-        /* Verifica se é um valor imediate ou uma label
+        /* Verifica se é um valor imediate, uma label ou um offset
          Se for uma label, usa as informações dos hashmaps para calcular a distancia
          desta instrução para a label
          No final, seta a string immediate para o valor imediato ou o valor calculado*/
-
-        if(regs[2].matches("[0-9]+")){
+        if(rt.contains("$sp")){
+            String aux = rt;
+            rt = rs;
+            rs = "29";
+            immediate = aux.substring(0, aux.indexOf('('));
+        }else if(regs[2].matches("[0-9]+")){
             immediate = regs[2];
         }
         else{
             String distancia = ""+(HesselIntensifies.distanceLabels.get(regs[2]) - HesselIntensifies.distanceInstructions.get(operacao));
             if(distancia.matches("[0-9]+")) distancia = Integer.parseInt(distancia)-1+"";
             else distancia = Integer.parseInt(distancia)-1+"";
-            String aux = rs;
-            rs = rt;
-            rt = aux;
             immediate = distancia;
         }
 

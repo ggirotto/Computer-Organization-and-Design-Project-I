@@ -21,13 +21,13 @@ public class HesselIntensifies {
         //System.out.println("1. Código para Hexa");
         //System.out.println("2. Hexa para código");
         // Salva todos os comandos em uma string grandona legal
-        distanceLabels.put("teste",15);
-        distanceInstructions.put("j",4);
-        String line = "j teste";
+        distanceLabels.put("teste",6);
+        distanceInstructions.put("bne",1);
+        String line = "bne $t0,$t1,teste";
         
         // Chamar método apropriado
-        //instructionsToHexa(line);
-        calculateInstruction.opTipoIH("0x24ea7ffe");
+        instructionsToHexa(line);
+        //calculateInstruction.opTipoIH("0x24ea7ffe");
     }
 
     public static void instructionsToHexa(String line) {

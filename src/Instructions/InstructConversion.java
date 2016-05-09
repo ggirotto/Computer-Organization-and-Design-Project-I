@@ -81,7 +81,7 @@ public abstract class InstructConversion{
             j = newLine.charAt(i)+"";
             if(j.matches("[0-9]+")) total += toBinary(j,4);
             else {
-                switch(j){
+                switch(j.toLowerCase()){
                     case "a":
                         total += toBinary("10",4);
                         break;
@@ -140,22 +140,22 @@ public abstract class InstructConversion{
             }
             switch(calc){
                 case 10:
-                    retorno += "A";
+                    retorno += "a";
                     break;
                 case 11:
-                    retorno += "B";
+                    retorno += "b";
                     break;
                 case 12:
-                    retorno += "C";
+                    retorno += "c";
                     break;
                 case 13:
-                    retorno += "D";
+                    retorno += "d";
                     break;
                 case 14:
-                    retorno += "E";
+                    retorno += "e";
                     break;
                 case 15:
-                    retorno += "F";
+                    retorno += "f";
                     break;
                 default:
                     retorno += calc;
@@ -177,8 +177,8 @@ public abstract class InstructConversion{
         // Armazena os valores em binario na string total
         String total = "";
         total += toBinary(tipoI.opcode, 6);
-        total += toBinary(tipoI.rt, 5);
         total += toBinary(tipoI.rs, 5);
+        total += toBinary(tipoI.rt, 5);
         total += toBinary(tipoI.immediate, 16);
         
         int i = 0;
@@ -199,22 +199,22 @@ public abstract class InstructConversion{
             }
             switch(calc){
                 case 10:
-                    retorno += "A";
+                    retorno += "a";
                     break;
                 case 11:
-                    retorno += "B";
+                    retorno += "b";
                     break;
                 case 12:
-                    retorno += "C";
+                    retorno += "c";
                     break;
                 case 13:
-                    retorno += "D";
+                    retorno += "d";
                     break;
                 case 14:
-                    retorno += "E";
+                    retorno += "e";
                     break;
                 case 15:
-                    retorno += "F";
+                    retorno += "f";
                     break;
                 default:
                     retorno += calc;
@@ -242,7 +242,7 @@ public abstract class InstructConversion{
         String newImmediate = "";
         // Passa o valor em hexa para binário:
         for(int i=0; i<= immediate.length()-1; i++){
-            switch(immediate.charAt(i)){
+            switch(Character.toLowerCase(immediate.charAt(i))){
                 case 'a':
                     newImmediate += toBinary("10",4);
                     break;
@@ -291,22 +291,22 @@ public abstract class InstructConversion{
             }
             switch(calc){
                 case 10:
-                    retorno += "A";
+                    retorno += "a";
                     break;
                 case 11:
-                    retorno += "B";
+                    retorno += "b";
                     break;
                 case 12:
-                    retorno += "C";
+                    retorno += "c";
                     break;
                 case 13:
-                    retorno += "D";
+                    retorno += "d";
                     break;
                 case 14:
-                    retorno += "E";
+                    retorno += "e";
                     break;
                 case 15:
-                    retorno += "F";
+                    retorno += "f";
                     break;
                 default:
                     retorno += calc;
