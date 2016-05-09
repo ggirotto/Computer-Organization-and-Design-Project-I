@@ -21,16 +21,16 @@ public class HesselIntensifies {
         //System.out.println("1. Código para Hexa");
         //System.out.println("2. Hexa para código");
         // Salva todos os comandos em uma string grandona legal
-        distanceLabels.put("teste",6);
+        distanceLabels.put("teste",21);
         distanceInstructions.put("bne",1);
-        String line = "bne $t0,$t1,teste";
+        String line = "lw $t0,0($sp)";
         
         // Chamar método apropriado
-        instructionsToHexa(line);
+        instructionToHexa(line);
         //calculateInstruction.opTipoIH("0x24ea7ffe");
     }
 
-    public static void instructionsToHexa(String line) {
+    public static void instructionToHexa(String line) {
 
         // Separa as informações da linha por espaço
         String[] parts = line.split(" ");
@@ -43,8 +43,11 @@ public class HesselIntensifies {
             calculateInstruction.opTipoR(line);
         } else if (enumInstrucao.valueOf(operacao).getTipo().equals("I")) {
             calculateInstruction.opTipoI(line);
-        } else {
+        } else if (enumInstrucao.valueOf(operacao).getTipo().equals("J")){
             calculateInstruction.opTipoJ(line);
+        } else{
+            System.out.println("Esta instrução não consta no nosso banco de dados");
+            return;
         }
 
     }
@@ -77,13 +80,19 @@ public class HesselIntensifies {
             }
         }
         
+        // Nenhuma instrução encontrada
+        if(cont==0){
+            System.out.println("Este código hexa não representa nenhuma instrução no nosso banco de dados");
+            return;
+        }
+        
         // Verifica o tipo da instrução e chama o método apropriado
         if (enumInstrucao.valueOf(opcode).getTipo().equals("R")) {
             calculateInstruction.opTipoRH(binario, opcode);
         } else if (enumInstrucao.valueOf(opcode).getTipo().equals("I")) {
-            //calculateInstruction.opTipoIH(line);
+            calculateInstruction.opTipoIH(line);
         } else {
-            //calculateInstruction.opTipoJH(line);
+            calculateInstruction.opTipoJH(binario, opcode);
         }
         
     }

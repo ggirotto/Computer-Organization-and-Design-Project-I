@@ -2,7 +2,7 @@ package Instructions;
 
 public abstract class InstructConversion{
     
-    public static String toBinary(String valor, int nroCaracteres){
+    public static String integerToBinary(String valor, int nroCaracteres){
         // Converte o valor para inteiro
         int bin = Integer.parseInt(valor);
         
@@ -30,20 +30,33 @@ public abstract class InstructConversion{
     }
     
     public static String twoComplement(String immediate){
+        
+        // Salva o valor na variável binario
         String binario = immediate;
+        
+        // Cria uma nova string para concatenar o resultado
         String newString = "";
+        
+        // Inverte os valroes do número binário. 1 vira 0 e 0 vira 1
         for(int i=0; i<=binario.length()-1; i++){
             if(binario.charAt(i)=='0') newString += "1";
             if(binario.charAt(i)=='1') newString += "0";
         }
+        
+        // Cria uma nova string para concatenar o resultado.
         String finalString = "";
+        
         int base = 0;
+        
+        // Caso para o último número da string
         if(newString.charAt(newString.length()-1) == '0'){
             finalString += "1";
         }else{
             finalString += "0";
             base = 1;
         }
+        
+        // Faz a soma do elemento na posição i com 1 + valor da base
         for(int i=newString.length()-2; i>=0; i--){
             if(newString.charAt(i) == '1' && base == 1){
                 finalString += "0";
@@ -55,11 +68,14 @@ public abstract class InstructConversion{
                 base = 0;
             }else finalString += newString.charAt(i);
         }
+        
+        // Inverte a string
         String reverse = new StringBuffer(finalString).reverse().toString();
+        
         return reverse;
     }
     
-    public static String toHexa(String value){
+    public static String integerToHexa(String value){
         String retorno = "004";
         
         // Converte a string value para hexa
@@ -74,31 +90,35 @@ public abstract class InstructConversion{
     }
     
     public static String hexaToBinary(String line){
+        // Retira o '0x' da instrução em hexa
         String newLine = line.substring(2,line.length());
+        
         String total = "";
         String j;
+        
+        // Faz a conversão de cada elemento para binário.
         for(int i=0; i<= newLine.length()-1; i++){
             j = newLine.charAt(i)+"";
-            if(j.matches("[0-9]+")) total += toBinary(j,4);
+            if(j.matches("[0-9]+")) total += integerToBinary(j,4);
             else {
                 switch(j.toLowerCase()){
                     case "a":
-                        total += toBinary("10",4);
+                        total += integerToBinary("10",4);
                         break;
                     case "b":
-                        total += toBinary("11",4);
+                        total += integerToBinary("11",4);
                         break;
                     case "c":
-                        total += toBinary("12",4);
+                        total += integerToBinary("12",4);
                         break;
                     case "d":
-                        total += toBinary("13",4);
+                        total += integerToBinary("13",4);
                         break;
                     case "e":
-                        total += toBinary("14",4);
+                        total += integerToBinary("14",4);
                         break;
                     case "f":
-                        total += toBinary("15",4);
+                        total += integerToBinary("15",4);
                         break;
                     
                 }
@@ -114,59 +134,15 @@ public abstract class InstructConversion{
         
         // Armazena os valores em binario na string total
         String total = "";
-        total += toBinary(tipoR.opcode, 6);
-        total += toBinary(tipoR.rs, 5);
-        total += toBinary(tipoR.rt, 5);
-        total += toBinary(tipoR.rd, 5);
-        total += toBinary(tipoR.shamt, 5);
-        total += toBinary(tipoR.funct, 6);
+        total += integerToBinary(tipoR.opcode, 6);
+        total += integerToBinary(tipoR.rs, 5);
+        total += integerToBinary(tipoR.rt, 5);
+        total += integerToBinary(tipoR.rd, 5);
+        total += integerToBinary(tipoR.shamt, 5);
+        total += integerToBinary(tipoR.funct, 6);
         
-        
-        int i = 0;
-        int base = 0;
-        int calc = 0;
-        
-        /*  Separa a string total em 7 partes de 4 caracteres.
-            Para cada parte, faz a conversão para hexadecimal
-            Aplica este valor final na string retorno
-        */
-        
-        while(i<=28){
-            String sub = total.substring(i, i+4);
-            for(int j=3; j>=0; j--){
-                int val = Character.getNumericValue(sub.charAt(j));
-                calc += val * Math.pow(2,base);
-                base++;
-            }
-            switch(calc){
-                case 10:
-                    retorno += "a";
-                    break;
-                case 11:
-                    retorno += "b";
-                    break;
-                case 12:
-                    retorno += "c";
-                    break;
-                case 13:
-                    retorno += "d";
-                    break;
-                case 14:
-                    retorno += "e";
-                    break;
-                case 15:
-                    retorno += "f";
-                    break;
-                default:
-                    retorno += calc;
-            }
-            calc = 0;
-            i+=4;
-            base=0;
-        }
-        
-        
-        return retorno;
+        // Faz a conversão de binario para hexadecimal
+        return binaryToHexa(total);
     }
     
     public static String ItoHexa(tipoI tipoI){
@@ -176,56 +152,13 @@ public abstract class InstructConversion{
         
         // Armazena os valores em binario na string total
         String total = "";
-        total += toBinary(tipoI.opcode, 6);
-        total += toBinary(tipoI.rs, 5);
-        total += toBinary(tipoI.rt, 5);
-        total += toBinary(tipoI.immediate, 16);
+        total += integerToBinary(tipoI.opcode, 6);
+        total += integerToBinary(tipoI.rs, 5);
+        total += integerToBinary(tipoI.rt, 5);
+        total += integerToBinary(tipoI.immediate, 16);
         
-        int i = 0;
-        int base = 0;
-        int calc = 0;
-        
-        /*  Separa a string total em 7 partes de 4 caracteres.
-            Para cada parte, faz a conversão para hexadecimal
-            Aplica este valor final na string retorno
-        */
-        
-        while(i<=28){
-            String sub = total.substring(i, i+4);
-            for(int j=3; j>=0; j--){
-                int val = Character.getNumericValue(sub.charAt(j));
-                calc += val * Math.pow(2,base);
-                base++;
-            }
-            switch(calc){
-                case 10:
-                    retorno += "a";
-                    break;
-                case 11:
-                    retorno += "b";
-                    break;
-                case 12:
-                    retorno += "c";
-                    break;
-                case 13:
-                    retorno += "d";
-                    break;
-                case 14:
-                    retorno += "e";
-                    break;
-                case 15:
-                    retorno += "f";
-                    break;
-                default:
-                    retorno += calc;
-            }
-            calc = 0;
-            i+=4;
-            base=0;
-        }
-        
-        
-        return retorno;
+        // Faz a conversão de binario para hexadecimal
+        return binaryToHexa(total);
     }
     
     public static String JtoHexa(tipoJ tipoJ){
@@ -234,53 +167,41 @@ public abstract class InstructConversion{
         
         // Armazena os valores em binario na string total
         String total = "";
-        total += toBinary(tipoJ.opcode, 6);
+        total += integerToBinary(tipoJ.opcode, 6);
         
         // Passa o valor imediato para hexadecimal:
-        String immediate = toHexa(tipoJ.immediate);
+        String immediate = integerToHexa(tipoJ.immediate);
         
-        String newImmediate = "";
         // Passa o valor em hexa para binário:
-        for(int i=0; i<= immediate.length()-1; i++){
-            switch(Character.toLowerCase(immediate.charAt(i))){
-                case 'a':
-                    newImmediate += toBinary("10",4);
-                    break;
-                case 'b':
-                    newImmediate += toBinary("11",4);
-                    break;
-                case 'c':
-                    newImmediate += toBinary("12",4);
-                    break;
-                case 'd':
-                    newImmediate += toBinary("13",4);
-                    break;
-                case 'e':
-                    newImmediate += toBinary("14",4);
-                    break;
-                case 'f':
-                    newImmediate += toBinary("15",4);
-                    break;
-                default:
-                    newImmediate += toBinary(immediate.charAt(i)+"", 4);
-                
-            }
-        }
+        String newImmediate = hexaToBinary("0x" + immediate);
         
         // Retira os 4 mais significativos e os dois menos
         String finalImmediate = newImmediate.substring(4,newImmediate.length()-2);
         
         // Concatena junto com o opcode na string total
         total += finalImmediate;
-
-        int i = 0;
-        int base = 0;
-        int calc = 0;
         
+        // Faz a conversão de binario para hexadecimal
+        return binaryToHexa(total);
+    }
+    
+    public static int binaryToInt(String valueAsBinary)
+    {
+        if(valueAsBinary.length()==1) return Integer.parseInt(valueAsBinary,2);
+        if(valueAsBinary.charAt(0)=='1') return binaryToInt(twoComplement(valueAsBinary));
+        return Integer.parseInt(valueAsBinary,2);
+    }
+    
+    public static String binaryToHexa(String total){
+        String retorno = "";
         /*  Separa a string total em 7 partes de 4 caracteres.
             Para cada parte, faz a conversão para hexadecimal
             Aplica este valor final na string retorno
         */
+        
+        int i = 0;
+        int base = 0;
+        int calc = 0;
         
         while(i<=28){
             String sub = total.substring(i, i+4);
@@ -315,16 +236,7 @@ public abstract class InstructConversion{
             i+=4;
             base=0;
         }
-        
-        
         return retorno;
-    }
-    
-    public static int binaryToInt(String valueAsBinary)
-    {
-        if(valueAsBinary.length()==1) return Integer.parseInt(valueAsBinary,2);
-        if(valueAsBinary.charAt(0)=='1') return binaryToInt(twoComplement(valueAsBinary));
-        return Integer.parseInt(valueAsBinary,2);
     }
     
 }
