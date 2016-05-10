@@ -9,11 +9,11 @@ package Instructions;
  *
  * @author 15105207
  */
-public class tipoJ extends Instruction {
+public class TipoJ extends Instruction {
     
     protected final String immediate;
     
-    public tipoJ(String newOpcode, String newImmediate)
+    public TipoJ(String newOpcode, String newImmediate)
     {
         super(newOpcode);
         immediate=newImmediate;

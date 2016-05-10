@@ -1,6 +1,6 @@
 package Enumerations;
 
-public enum enumInstrucao {
+public enum EnumInstrucao {
     add("R","0","32"),
     addi("I","8","0"),
     addu("R","0","33"),
@@ -19,7 +19,7 @@ public enum enumInstrucao {
     
     private final String tipoInstrucao,valorOpcode,valorFunct;
     
-    enumInstrucao(String newTipo, String newOpcode, String newFunct){
+    EnumInstrucao(String newTipo, String newOpcode, String newFunct){
         tipoInstrucao = newTipo;
         valorOpcode = newOpcode;
         valorFunct = newFunct;

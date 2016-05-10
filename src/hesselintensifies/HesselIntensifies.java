@@ -9,9 +9,9 @@ import java.util.Scanner;
 public class HesselIntensifies {
     
     // Hash Map que salva as labels e sua distancia do inicio do programa
-    protected static final Map<String, Integer> distanceLabels = new HashMap<>();
+    protected static Map<String, Integer> distanceLabels = new HashMap<>();
     // Hash Map que salva as instruções e sua distancia do inicio do programa
-    protected static final Map<String, Integer> distanceInstructions = new HashMap<>();
+    protected static Map<String, Integer> distanceInstructions = new HashMap<>();
     // Variavel para adicionar a distancia nos dois hashMaps
     private static int iteratorDistance = 0;
     
@@ -39,12 +39,12 @@ public class HesselIntensifies {
         String operacao = parts[0];
         
         // Verifica o tipo da instrução e chama o método apropriado
-        if (enumInstrucao.valueOf(operacao).getTipo().equals("R")) {
-            calculateInstruction.opTipoR(line);
-        } else if (enumInstrucao.valueOf(operacao).getTipo().equals("I")) {
-            calculateInstruction.opTipoI(line);
-        } else if (enumInstrucao.valueOf(operacao).getTipo().equals("J")){
-            calculateInstruction.opTipoJ(line);
+        if (EnumInstrucao.valueOf(operacao).getTipo().equals("R")) {
+            CalculateInstruction.opTipoR(line);
+        } else if (EnumInstrucao.valueOf(operacao).getTipo().equals("I")) {
+            CalculateInstruction.opTipoI(line);
+        } else if (EnumInstrucao.valueOf(operacao).getTipo().equals("J")){
+            CalculateInstruction.opTipoJ(line);
         } else{
             System.out.println("Esta instrução não consta no nosso banco de dados");
             return;
@@ -63,7 +63,7 @@ public class HesselIntensifies {
         
         // Verifica se só possui uma instrução com o opcode
         int cont = 0;
-        for (enumInstrucao opc : enumInstrucao.values()) {
+        for (EnumInstrucao opc : EnumInstrucao.values()) {
             if(opc.getOpcode().equals(decimalOpcode)){
                 opcode = opc+"";
                 cont++;
@@ -72,7 +72,7 @@ public class HesselIntensifies {
         
         // Se tiver mais de uma instrução com o mesmo opcode, usa o funct para pegar a correta
         if(cont > 1){
-            for (enumInstrucao func : enumInstrucao.values()) {
+            for (EnumInstrucao func : EnumInstrucao.values()) {
                 if(func.getFunct().equals(decimalFunct)){
                     opcode = func+"";
                     break;
@@ -87,12 +87,12 @@ public class HesselIntensifies {
         }
         
         // Verifica o tipo da instrução e chama o método apropriado
-        if (enumInstrucao.valueOf(opcode).getTipo().equals("R")) {
-            calculateInstruction.opTipoRH(binario, opcode);
-        } else if (enumInstrucao.valueOf(opcode).getTipo().equals("I")) {
-            calculateInstruction.opTipoIH(line);
+        if (EnumInstrucao.valueOf(opcode).getTipo().equals("R")) {
+            CalculateInstruction.opTipoRH(binario, opcode);
+        } else if (EnumInstrucao.valueOf(opcode).getTipo().equals("I")) {
+            CalculateInstruction.opTipoIH(line);
         } else {
-            calculateInstruction.opTipoJH(binario, opcode);
+            CalculateInstruction.opTipoJH(binario, opcode);
         }
         
     }

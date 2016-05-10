@@ -4,21 +4,21 @@ import Enumerations.*;
 import Instructions.*;
 import java.util.Map;
 
-public class calculateInstruction {
+public class CalculateInstruction {
     // Método para operações do tipo R (instruct to hexa)
     public static void opTipoR(String line) {
         
         String[] parts = line.split(" "); 
         String operacao = parts[0];
-        String opcode = enumInstrucao.valueOf(operacao).getOpcode();        
-        String funct = enumInstrucao.valueOf(operacao).getFunct();
+        String opcode = EnumInstrucao.valueOf(operacao).getOpcode();        
+        String funct = EnumInstrucao.valueOf(operacao).getFunct();
         
         //Separa os registradores/valores
         String[] regs = parts[1].split(",");
 
         // Resgata o valor em decimal dos registradores da operação
-        String rd = enumRegistradores.valueOf(regs[0]).ordinal()+"";
-        String rs = enumRegistradores.valueOf(regs[1]).ordinal()+"";
+        String rd = EnumRegistradores.valueOf(regs[0]).ordinal()+"";
+        String rs = EnumRegistradores.valueOf(regs[1]).ordinal()+"";
 
         // Inicializa variáveis que serão ajustadas no próximo IF
         String rt;
@@ -30,14 +30,14 @@ public class calculateInstruction {
         */
 
         if (regs[2].contains("$")) {
-            rt = enumRegistradores.valueOf(regs[2]).ordinal()+"";
+            rt = EnumRegistradores.valueOf(regs[2]).ordinal()+"";
         } else {
             rt = rs;
             rs = "0";
             shamt = regs[2];
         }
 
-        tipoR objInstrucao = new tipoR(opcode, rs, rt, rd, shamt, funct);
+        TipoR objInstrucao = new TipoR(opcode, rs, rt, rd, shamt, funct);
 
         // Utiliza as informações armazenadas no objeto para converter a instrução em hexa
         String resultado = InstructConversion.RtoHexa(objInstrucao);
@@ -64,7 +64,7 @@ public class calculateInstruction {
         shamt = Integer.parseInt(shamt,2)+"";
 
         // Faz a busca nos enumeradores pelos registradores
-        for (enumRegistradores opc : enumRegistradores.values()) {
+        for (EnumRegistradores opc : EnumRegistradores.values()) {
             if(opc.ordinal()==Integer.parseInt(rs)){
                 rs = opc+"";
             }
@@ -100,17 +100,17 @@ public class calculateInstruction {
 
         // Pega o opcode da operação acima
 
-        String opcode = enumInstrucao.valueOf(operacao).getOpcode();
+        String opcode = EnumInstrucao.valueOf(operacao).getOpcode();
         
         //Separa os registradores/valores
         String [] regs = parts[1].split(",");
 
         // Resgata o valor em decimal dos registradores da operação
-        String rs = enumRegistradores.valueOf(regs[0]).ordinal()+"";
+        String rs = EnumRegistradores.valueOf(regs[0]).ordinal()+"";
         String rt;
         if(regs[1].contains("(")){
             rt = regs[1];
-        }else rt = enumRegistradores.valueOf(regs[1]).ordinal()+"";
+        }else rt = EnumRegistradores.valueOf(regs[1]).ordinal()+"";
 
         String immediate;
 
@@ -122,7 +122,7 @@ public class calculateInstruction {
             String aux = rt;
             rt = rs;
             rs = aux.substring(aux.indexOf('(')+1, aux.indexOf(')'));
-            rs = enumRegistradores.valueOf(rs).ordinal()+"";
+            rs = EnumRegistradores.valueOf(rs).ordinal()+"";
             immediate = aux.substring(0, aux.indexOf('('));
         }else if(regs[2].matches("[0-9]+")){
             immediate = regs[2];
@@ -135,7 +135,7 @@ public class calculateInstruction {
         }
 
         // Cria o objeto com todas as informações necessárias
-        tipoI objInstrucao = new tipoI(opcode, rs, rt, immediate);
+        TipoI objInstrucao = new TipoI(opcode, rs, rt, immediate);
 
         // Utiliza as informações armazenadas no objeto para converter a instrução em hexa
         String resultado = InstructConversion.ItoHexa(objInstrucao);
@@ -162,12 +162,12 @@ public class calculateInstruction {
         String rt = IInstructionAsBinary.substring(11,16);
         String immediate = IInstructionAsBinary.substring(16,32);
         
-        for(enumInstrucao instruction : enumInstrucao.values())
+        for(EnumInstrucao instruction : EnumInstrucao.values())
             //Procura por uma instrução no enum com o mesmo opcode
             if(Integer.parseInt(instruction.getOpcode())==Integer.parseInt(opcode,2)) IInstructionAsString+=instruction.toString()+" ";
         
-        IInstructionAsString+= enumRegistradores.values()[InstructConversion.binaryToInt(rs)].toString()+",";
-        IInstructionAsString+= enumRegistradores.values()[InstructConversion.binaryToInt(rt)].toString()+",";
+        IInstructionAsString+= EnumRegistradores.values()[InstructConversion.binaryToInt(rs)].toString()+",";
+        IInstructionAsString+= EnumRegistradores.values()[InstructConversion.binaryToInt(rt)].toString()+",";
         IInstructionAsString+= InstructConversion.binaryToInt(immediate);
         System.out.println(IInstructionAsString);
     }
@@ -180,7 +180,7 @@ public class calculateInstruction {
         String operacao = parts[0];
 
         // Pega o opcode da operação acima
-        String opcode = enumInstrucao.valueOf(operacao).getOpcode();
+        String opcode = EnumInstrucao.valueOf(operacao).getOpcode();
         
         // Pega a label
         String label = parts[1];
@@ -188,7 +188,7 @@ public class calculateInstruction {
         String immediate = ((HesselIntensifies.distanceLabels.get(label)-1) * 4)+"";
         
         // Cria o objeto com todas as informações necessárias
-        tipoJ objInstrucao = new tipoJ(opcode, immediate);
+        TipoJ objInstrucao = new TipoJ(opcode, immediate);
 
         // Utiliza as informações armazenadas no objeto para converter a instrução em hexa
         String resultado = InstructConversion.JtoHexa(objInstrucao);

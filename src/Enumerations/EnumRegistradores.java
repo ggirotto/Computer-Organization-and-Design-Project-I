@@ -1,6 +1,6 @@
 package Enumerations;
 
-public enum enumRegistradores {
+public enum EnumRegistradores {
     $zero,
     $at$,
     $v0,
@@ -34,5 +34,5 @@ public enum enumRegistradores {
     $fp,
     $ra;
      
-    enumRegistradores(){}
+    EnumRegistradores(){}
 }
