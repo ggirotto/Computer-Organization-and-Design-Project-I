@@ -12,12 +12,12 @@ package BaseConversions;
 public abstract class FromHexa{
     
 
-    public String toHexa(String toHexa)
+    public static String toHexa(String toHexa)
     {
         return toHexa;
     }
     
-    public String toBinary(String toBinary)
+    public static String toBinary(String toBinary)
     {
         //Lê cada caractere da string toBinary e o expande corretamente nos 4 dígitos correspondentes
         //O substring(2) esta la porque os 2 primeiros digitos da string hexa sao 0x
@@ -58,7 +58,7 @@ public abstract class FromHexa{
         return toBinaried;
     }
     
-    public String toDecimal(String toDecimal)
+    public static String toDecimal(String toDecimal)
     {
         //Passa para binário primeiro, verificando se está em complemento de 2
         if(toBinary(toDecimal).charAt(0)=='1') toDecimal=TwoComplement.unTwoComplement(toDecimal);
