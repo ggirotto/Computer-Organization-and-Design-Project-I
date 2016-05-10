@@ -29,7 +29,7 @@ public abstract class FromHexa{
                 //Aquele while ali é para preencher o dígito com os zeros necessários
                 //a função toBinaryString não adiciona mais nada além do suficiente
                 String toBinariedDigit = "";
-                toBinariedDigit+=Integer.toBinaryString(Integer.parseInt(String.valueOf(hexaDigit),2));
+                toBinariedDigit = Integer.toString(Integer.parseInt(String.valueOf(hexaDigit)),2);
                 while(toBinariedDigit.length()<4) toBinariedDigit="0"+toBinariedDigit;
                 toBinaried=toBinaried+toBinariedDigit;
             }
@@ -60,11 +60,12 @@ public abstract class FromHexa{
     
     public static String toDecimal(String toDecimal)
     {
+        String fromHexaToDecimal="";
         //Passa para binário primeiro, verificando se está em complemento de 2
-        if(toBinary(toDecimal).charAt(0)=='1') toDecimal=TwoComplement.unTwoComplement(toDecimal);
-        else toDecimal=toBinary(toDecimal);
-        
-       
+        if(toBinary(toDecimal).charAt(0)=='1')
+            fromHexaToDecimal="1"+FromBinary.toDecimal(TwoComplement.unTwoComplement(toDecimal));
+        else fromHexaToDecimal="0"+ FromBinary.toDecimal(toBinary(toDecimal));       
+        return fromHexaToDecimal;
     }
     
 }
