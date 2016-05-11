@@ -5,10 +5,8 @@
  */
 package InstructionFactory;
 
-import BaseConversions.FromBinary;
-import Enumerations.EnumInstrucao;
-import Enumerations.EnumRegistradores;
-import Instructions.InstructConversion;
+import BaseConversions.*;
+import Enumerations.*;
 
 /**
  *
@@ -53,16 +51,15 @@ public abstract class TipoR{
             shamt = regs[2];
         }
      
-        String binOpcode = BaseConversions.FromDecimal.toBinaryUnsigned(opcode,6);
-        String binRs = BaseConversions.FromDecimal.toBinaryUnsigned(rs,5);
-        String binRt = BaseConversions.FromDecimal.toBinaryUnsigned(rt,5);
-        String binRd = BaseConversions.FromDecimal.toBinaryUnsigned(rd,5);
-        String binShamt = BaseConversions.FromDecimal.toBinaryUnsigned(shamt,5);
-        String binFunct = BaseConversions.FromDecimal.toBinaryUnsigned(funct,6);
+        String binOpcode = BaseConversions.FromDecimal.toBinary(opcode,6);
+        String binRs = BaseConversions.FromDecimal.toBinary(rs,5);
+        String binRt = BaseConversions.FromDecimal.toBinary(rt,5);
+        String binRd = BaseConversions.FromDecimal.toBinary(rd,5);
+        String binShamt = BaseConversions.FromDecimal.toBinary(shamt,5);
+        String binFunct = BaseConversions.FromDecimal.toBinary(funct,6);
         
-        String hexaInstruction=FromBinary.toHexa(binOpcode+binRs+binRt+binRd+binShamt+binFunct).substring(2);
+        String hexaInstruction=FromBinary.toHexa(binOpcode+binRs+binRt+binRd+binShamt+binFunct);
                 
-        while(hexaInstruction.length()<8) hexaInstruction = "0"+hexaInstruction;
         return "0x"+hexaInstruction;
     }
     

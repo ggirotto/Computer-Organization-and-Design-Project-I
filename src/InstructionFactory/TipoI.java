@@ -5,10 +5,9 @@
  */
 package InstructionFactory;
 
-import BaseConversions.FromBinary;
-import Enumerations.EnumInstrucao;
-import Enumerations.EnumRegistradores;
-import Instructions.InstructConversion;
+import BaseConversions.*;
+import Enumerations.*;
+import java.util.Map;
 import hesselintensifies.HesselIntensifies;
 
 /**
@@ -49,7 +48,7 @@ public abstract class TipoI{
             rs = aux.substring(aux.indexOf('(')+1, aux.indexOf(')'));
             rs = EnumRegistradores.valueOf(rs).ordinal()+"";
             immediate = aux.substring(0, aux.indexOf('('));
-        }else if(regs[2].matches("[0-9]+")){
+        }else if(regs[2].matches("[0-9]+") || regs[2].matches("-[0-9]+")){
             immediate = regs[2];
         }
         else{
@@ -59,16 +58,80 @@ public abstract class TipoI{
             immediate = distancia;
         }
 
-        String binOpcode= BaseConversions.FromDecimal.toBinaryUnsigned(opcode,6);
-        String binRs = BaseConversions.FromDecimal.toBinaryUnsigned(rs,5);
-        String binRt = BaseConversions.FromDecimal.toBinaryUnsigned(rt,6);
-        String binImmediate = BaseConversions.FromDecimal.toBinary(immediate);
+        String binOpcode= BaseConversions.FromDecimal.toBinary(opcode,6);
+        String binRs = BaseConversions.FromDecimal.toBinary(rs,5);
+        String binRt = BaseConversions.FromDecimal.toBinary(rt,5);
+        String binImmediate = BaseConversions.FromDecimal.toBinary(immediate,16);
         
-        String hexaInstruction=FromBinary.toHexa(binOpcode+binRs+binRt+binImmediate).substring(2);
+        String hexaInstruction=FromBinary.toHexa(binOpcode+binRs+binRt+binImmediate);
         
-        while(hexaInstruction.length()<8) hexaInstruction = "0"+hexaInstruction;
         return "0x"+hexaInstruction;
     }
     
-    public static String hexaToAlphaNumerical(String toAlphaNumerical){return "";}
+    public static String hexaToAlphaNumerical(String toAlphaNumerical){
+        /*Converte o hexa para binário (facilita a manipulação)
+        e captura as partes da instrução:
+        > opcode (6 bits)
+        > rs (5 bits)
+        > rd (5 bits)
+        > immediate (16 bits)
+        */
+        String IInstructionAsBinary = BaseConversions.FromHexa.toBinary(toAlphaNumerical);
+        String IInstructionAsString = "";
+        
+        String opcode = IInstructionAsBinary.substring(0,6);
+        String rs = IInstructionAsBinary.substring(6,11);
+        String rt = IInstructionAsBinary.substring(11,16);
+        String immediate = IInstructionAsBinary.substring(16,32);
+
+        for(EnumInstrucao instruction : EnumInstrucao.values())
+            //Procura por uma instrução no enum com o mesmo opcode
+            if(Integer.parseInt(instruction.getOpcode())==Integer.parseInt(opcode,2)) IInstructionAsString+=instruction.toString()+" ";
+        
+        if(IInstructionAsString.contains("beq") || IInstructionAsString.contains("bne")){
+            String instrucao = IInstructionAsString.substring(0, IInstructionAsString.length()-1);
+            int distanciaInstrucao = 0;
+            int distanciaFinal = 0;
+            IInstructionAsString+= EnumRegistradores.values()[Integer.parseInt(BaseConversions.FromBinary.toDecimalUnsigned(rs))].toString()+",";
+            IInstructionAsString+= EnumRegistradores.values()[Integer.parseInt(BaseConversions.FromBinary.toDecimalUnsigned(rt))].toString()+",";
+            
+            // Faz a pesquisa nos HashMaps pela label que condiz com o valor imediato
+            Map<String,Integer> distanceInstructions = HesselIntensifies.distanceInstructions;
+            for (Map.Entry<String, Integer> entry : distanceInstructions.entrySet()) {
+                if(entry.getKey().contains(instrucao)){
+                    distanciaInstrucao = entry.getValue();
+                }else continue;
+                
+                if(immediate.charAt(0) == '1') distanciaFinal = (distanciaInstrucao - Integer.parseInt(BaseConversions.FromBinary.toDecimal(immediate)))-1;
+                else distanciaFinal = (distanciaInstrucao + Integer.parseInt(BaseConversions.FromBinary.toDecimal(immediate)))+1;
+
+                // Pega a label a partir do valor encontrado
+                Map<String,Integer> distanceLabels = HesselIntensifies.distanceLabels;
+                String label = "";
+                for (Map.Entry<String, Integer> entryLabels : distanceLabels.entrySet()) {
+                    if(entryLabels.getValue() == distanciaFinal){
+                        label = entryLabels.getKey();
+                        IInstructionAsString+=entryLabels.getKey();
+                        break;
+                    }
+                }
+                if(label.length() > 1) break;
+            }
+           return IInstructionAsString;
+        }else if(IInstructionAsString.contains("lw") || IInstructionAsString.contains("sw")){
+            String instrucao = IInstructionAsString.substring(0, IInstructionAsString.length()-1);
+            IInstructionAsString+= EnumRegistradores.values()[Integer.parseInt(BaseConversions.FromBinary.toDecimalUnsigned(rt))].toString()+",";
+            IInstructionAsString+= BaseConversions.FromBinary.toDecimalUnsigned(immediate);
+            IInstructionAsString+= "(" + EnumRegistradores.values()[Integer.parseInt(BaseConversions.FromBinary.toDecimalUnsigned(rs))].toString()+")";
+            return IInstructionAsString;
+            
+        }else{
+            IInstructionAsString+= EnumRegistradores.values()[Integer.parseInt(BaseConversions.FromBinary.toDecimalUnsigned(rs))].toString()+",";
+            IInstructionAsString+= EnumRegistradores.values()[Integer.parseInt(BaseConversions.FromBinary.toDecimalUnsigned(rt))].toString()+",";
+            if(immediate.charAt(0)=='1') immediate = "-"+TwoComplement.twoComplement(immediate);
+            IInstructionAsString+= BaseConversions.FromBinary.toDecimalUnsigned(immediate);
+
+            return IInstructionAsString;
+        }
+    }
 }

@@ -19,43 +19,41 @@ public abstract class FromHexa{
     
     public static String toBinary(String toBinary)
     {
-        //Lê cada caractere da string toBinary e o expande corretamente nos 4 dígitos correspondentes
-        //O substring(2) esta la porque os 2 primeiros digitos da string hexa sao 0x
-        String toBinaried="";
-        //Orgulho disso aqui
-        for(char hexaDigit : toBinary.substring(2).toCharArray())
-            if((String.valueOf(hexaDigit)).matches("[0-9]"))
-            {
-                //Aquele while ali é para preencher o dígito com os zeros necessários
-                //a função toBinaryString não adiciona mais nada além do suficiente
-                String toBinariedDigit = "";
-                toBinariedDigit = Integer.toString(Integer.parseInt(String.valueOf(hexaDigit)),2);
-                while(toBinariedDigit.length()<4) toBinariedDigit="0"+toBinariedDigit;
-                toBinaried=toBinaried+toBinariedDigit;
+        // Retira o '0x' da instrução em hexa
+        String newLine = toBinary.substring(2,toBinary.length());
+        
+        String total = "";
+        String j;
+        
+        // Faz a conversão de cada elemento para binário.
+        for(int i=0; i<= newLine.length()-1; i++){
+            j = newLine.charAt(i)+"";
+            if(j.matches("[0-9]+")) total += FromDecimal.toBinary(j,4);
+            else {
+                switch(j.toLowerCase()){
+                    case "a":
+                        total += FromDecimal.toBinary("10",4);
+                        break;
+                    case "b":
+                        total += FromDecimal.toBinary("11",4);
+                        break;
+                    case "c":
+                        total += FromDecimal.toBinary("12",4);
+                        break;
+                    case "d":
+                        total += FromDecimal.toBinary("13",4);
+                        break;
+                    case "e":
+                        total += FromDecimal.toBinary("14",4);
+                        break;
+                    case "f":
+                        total += FromDecimal.toBinary("15",4);
+                        break;
+                    
+                }
             }
-            else switch (hexaDigit)
-            {
-                //Nem tanto orgulho dessa parte
-                case 'A': case 'a':
-                    toBinaried+="1010";
-                    break;
-                case 'B': case 'b':
-                    toBinaried+="1011";
-                    break;
-                case 'C': case 'c':
-                    toBinaried+="1100";
-                    break;
-                case 'D': case 'd':
-                    toBinaried+="1101";
-                    break;
-                case 'E': case 'e':
-                    toBinaried+="1110";
-                    break;
-                case 'F': case 'f':
-                    toBinaried+="1111";
-                    break;
-            }    
-        return toBinaried;
+        }
+        return total;
     }
     
     public static String toDecimal(String toDecimal)

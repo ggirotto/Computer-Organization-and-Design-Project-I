@@ -2,7 +2,7 @@ package Enumerations;
 
 public enum EnumRegistradores {
     $zero,
-    $at$,
+    $at,
     $v0,
     $v1,
     $a0,

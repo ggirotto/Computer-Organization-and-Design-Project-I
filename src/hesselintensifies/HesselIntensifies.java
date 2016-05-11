@@ -2,8 +2,8 @@ package hesselintensifies;
 
 import java.util.HashMap;
 import java.util.Map;
-import Instructions.InstructConversion;
 import Enumerations.*;
+import java.io.*;
 import java.util.Scanner;
 
 public class HesselIntensifies {
@@ -14,23 +14,61 @@ public class HesselIntensifies {
     public static Map<String, Integer> distanceInstructions = new HashMap<>();
     // Variavel para adicionar a distancia nos dois hashMaps
     private static int iteratorDistance = 0;
+    public static int iteratorCancer = 0;
     
-     public static void main(String[] args){
+     public static void main(String[] args) throws IOException{
         Scanner in = new Scanner(System.in);
         //Perguntar se quer passar de codigo para hexa ou de hexa para codigo
-        //System.out.println("1. Código para Hexa");
-        //System.out.println("2. Hexa para código");
-        // Salva todos os comandos em uma string grandona legal
-        distanceLabels.put("teste",21);
-        distanceInstructions.put("bne",1);
-        String line = "lw $t0,0($sp)";
+        System.out.println("1. Código para Hexa");
+        System.out.println("2. Hexa para código");
+        int choose = 1;
+        FileReader fileRead = new FileReader("teste.txt");
+        PrintWriter writer = new PrintWriter("saida.txt", "UTF-8");
+        BufferedReader lerArq = new BufferedReader(fileRead);
+        String line = lerArq.readLine(); // lê a primeira linha
+        while (line != null){
+            saveDistance(line);
+            line = lerArq.readLine();
+        }
+        fileRead = new FileReader("teste.txt");
+        lerArq = new BufferedReader(fileRead);
+        line = lerArq.readLine(); // lê a primeira linha
+        while (line != null) {
+            boolean validLine = limpaCodigo(line);
+            if(validLine == false){
+                if(line.equals("")){
+                    line = lerArq.readLine();
+                    continue;
+                }
+                writer.println(line);
+                line = lerArq.readLine();
+                continue;
+            }
+            if(line.substring(0, 2).equals("0x") && choose==1){
+                line = lerArq.readLine();
+                continue;
+            }
+            else if(!(line.substring(0, 2).equals("0x")) && choose==2){
+                line = lerArq.readLine();
+                continue;
+            }
+            else{
+                if(choose==1){
+                    String result = instructionToHexa(line);
+                    writer.println(result);
+                }else{
+                    String result = hexaToInstruction(line);
+                    writer.println(result);
+                }
+            }
+            
+            line = lerArq.readLine();
+        }
         
-        // Chamar método apropriado
-        instructionToHexa(line);
-        //calculateInstruction.opTipoIH("0x24ea7ffe");
+        writer.close();
     }
 
-    public static void instructionToHexa(String line) {
+    public static String instructionToHexa(String line) {
 
         // Separa as informações da linha por espaço
         String[] parts = line.split(" ");
@@ -38,22 +76,32 @@ public class HesselIntensifies {
         // Pega o opcode e tipo da função
         String operacao = parts[0];
         
+        // Verifica se a instrução é valida
+        boolean existe = false;
+        for (EnumInstrucao c : EnumInstrucao.values()) {
+            if (c.name().equals(operacao)) {
+                existe = true;
+            }
+        }
+        
+        // Se não for, retorna uma mensagem
+        if(existe==false) return "Esta instrução não consta no nosso banco de dados";
+        
         // Verifica o tipo da instrução e chama o método apropriado
         if (EnumInstrucao.valueOf(operacao).getTipo().equals("R")) {
-            InstructionFactory.opTipoR(line);
+            return InstructionFactory.TipoR.alphaNumericalToHexa(line);
         } else if (EnumInstrucao.valueOf(operacao).getTipo().equals("I")) {
-            InstructionFactory.opTipoI(line);
+            return InstructionFactory.TipoI.alphaNumericalToHexa(line);
         } else if (EnumInstrucao.valueOf(operacao).getTipo().equals("J")){
-            InstructionFactory.opTipoJ(line);
-        } else{
-            System.out.println("Esta instrução não consta no nosso banco de dados");
-            return;
+            return InstructionFactory.TipoJ.alphaNumericalToHexa(line);
         }
+        
+        return "Esta instrução não consta no nosso banco de dados";
 
     }
     
-    public static void hexaToInstructions(String line){
-        String binario = InstructConversion.hexaToBinary(line);
+    public static String hexaToInstruction(String line){
+        String binario = BaseConversions.FromHexa.toBinary(line);
         
         String opcode = binario.substring(0,6);
         String funct = binario.substring(26,32);
@@ -81,48 +129,49 @@ public class HesselIntensifies {
         }
         
         // Nenhuma instrução encontrada
-        if(cont==0){
-            System.out.println("Este código hexa não representa nenhuma instrução no nosso banco de dados");
-            return;
-        }
+        if(cont==0) return "Este código hexa não representa nenhuma instrução no nosso banco de dados";
         
         // Verifica o tipo da instrução e chama o método apropriado
         if (EnumInstrucao.valueOf(opcode).getTipo().equals("R")) {
-            InstructionFactory.opTipoRH(binary, opcode);
+            return InstructionFactory.TipoR.hexaToAlphaNumerical(binario, opcode);
         } else if (EnumInstrucao.valueOf(opcode).getTipo().equals("I")) {
-            InstructionFactory.opTipoIH(line);
+            return InstructionFactory.TipoI.hexaToAlphaNumerical(line);
         } else {
-            InstructionFactory.opTipoJH(binario, opcode);
+            return InstructionFactory.TipoJ.hexaToAlphaNumerical(binario, opcode);
         }
         
     }
     
     // Salva a distancia das labels e das operações que utilizam labels nos hashmaps
     public static void saveDistance(String line){
-        switch(line){
-            case "beq":
-                distanceInstructions.put("beq",iteratorDistance);
+        if(line.contains("beq")){
+                distanceInstructions.put("beq"+iteratorCancer+"",iteratorDistance);
                 iteratorDistance++;
-            case "bne":
-                distanceInstructions.put("bne",iteratorDistance);
+                iteratorCancer++;
+        }else if(line.contains("bne")){
+            distanceInstructions.put("bne"+iteratorCancer+"",iteratorDistance);
                 iteratorDistance++;
-            case "j":
-                distanceInstructions.put("j",iteratorDistance);
+                iteratorCancer++;
+        }else if(line.contains("j")){
+            distanceInstructions.put("j"+iteratorCancer+"",iteratorDistance);
                 iteratorDistance++;
-            case "jal":
-                distanceInstructions.put("jal",iteratorDistance);
-                iteratorDistance++;
-            case ":":
-                distanceLabels.put(line,iteratorDistance);
-            default:
-                iteratorDistance++;
+                iteratorCancer++;
+        }else if(line.contains(":")){
+            distanceLabels.put(line.substring(0,line.indexOf(":")),iteratorDistance);
+            iteratorDistance++;
+        }else{
+            iteratorDistance++;
         }
+                
     }
     
+    
+    
     // Retira espaços em branco e textos desnecessários do arquivo (.text, .globl, ...)
-    public static String limpaCodigo(String linha){
-        if(linha.equals("\n")) return "";
-        if(linha.matches("\\.*")) return "";
-        return linha;
+    public static boolean limpaCodigo(String linha){
+        if(linha.equals("")) return false;
+        if(linha.contains(".")) return false;
+        if(linha.contains(":")) return false;
+        return true;
     }
 }

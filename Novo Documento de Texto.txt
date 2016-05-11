@@ -1,0 +1,27 @@
+Hashmap<String,Integer> labelAddresses : 
+
+PrimeiraPassada():
+{
+	int linhaDoPrograma=0;
+	while(streamDeEntrada.hasNextLine())
+		se(streamDeEntrada.nextLine().contem(:)){
+			labelAddresses.put(linha.split(:)[0],
+				   	linhaDoPrograma*4);
+}
+
+SegundaPassada()
+{
+	int linhaDoPrograma=0;
+	enquanto(streamDeEntrada.hasNextLine())
+	{
+		se (!(streamDeEntrada.nextLine().contem(:+.)))
+		{
+			faz a verificação do tipo de instrução;
+			se a instrução for bne ou beq:
+				immediate=linhaDoPrograma*4-labelAddresses.getValue("label");
+			se a instrução for j:
+				address=FromDecimal.toHexaWAddress(""+linhaDoPrograma*4);
+			linhaDoPrograma++;
+		}
+	}
+}
