@@ -52,10 +52,7 @@ public abstract class TipoR{
             rs = "0";
             shamt = regs[2];
         }
-
-        Instructions.TipoR objInstrucao = new Instructions.TipoR(opcode, rs, rt, rd, shamt, funct);
-
-        
+     
         String binOpcode = BaseConversions.FromDecimal.toBinaryUnsigned(opcode,6);
         String binRs = BaseConversions.FromDecimal.toBinaryUnsigned(rs,5);
         String binRt = BaseConversions.FromDecimal.toBinaryUnsigned(rt,5);

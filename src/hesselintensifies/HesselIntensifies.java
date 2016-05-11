@@ -9,9 +9,9 @@ import java.util.Scanner;
 public class HesselIntensifies {
     
     // Hash Map que salva as labels e sua distancia do inicio do programa
-    protected static Map<String, Integer> distanceLabels = new HashMap<>();
+    public static Map<String, Integer> distanceLabels = new HashMap<>();
     // Hash Map que salva as instruções e sua distancia do inicio do programa
-    protected static Map<String, Integer> distanceInstructions = new HashMap<>();
+    public static Map<String, Integer> distanceInstructions = new HashMap<>();
     // Variavel para adicionar a distancia nos dois hashMaps
     private static int iteratorDistance = 0;
     

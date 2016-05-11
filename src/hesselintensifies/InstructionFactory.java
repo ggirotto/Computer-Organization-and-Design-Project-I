@@ -54,57 +54,7 @@ public class InstructionFactory {
 
     // Método para operações do tipo I (instruct to hexa)
     public static void opTipoI(String line){
-         // Separa as informações da linha por espaço
-        String [] parts = line.split(" ");
-
-        // Pega a operação (exemplo: bne)
-        String operacao = parts[0];
-
-        // Pega o opcode da operação acima
-
-        String opcode = EnumInstrucao.valueOf(operacao).getOpcode();
-        
-        //Separa os registradores/valores
-        String [] regs = parts[1].split(",");
-
-        // Resgata o valor em decimal dos registradores da operação
-        String rs = EnumRegistradores.valueOf(regs[0]).ordinal()+"";
-        String rt;
-        if(regs[1].contains("(")){
-            rt = regs[1];
-        }else rt = EnumRegistradores.valueOf(regs[1]).ordinal()+"";
-
-        String immediate;
-
-        /* Verifica se é um valor imediate, uma label ou um offset
-         Se for uma label, usa as informações dos hashmaps para calcular a distancia
-         desta instrução para a label
-         No final, seta a string immediate para o valor imediato ou o valor calculado*/
-        if(rt.contains("(")){
-            String aux = rt;
-            rt = rs;
-            rs = aux.substring(aux.indexOf('(')+1, aux.indexOf(')'));
-            rs = EnumRegistradores.valueOf(rs).ordinal()+"";
-            immediate = aux.substring(0, aux.indexOf('('));
-        }else if(regs[2].matches("[0-9]+")){
-            immediate = regs[2];
-        }
-        else{
-            String distancia = ""+(HesselIntensifies.distanceLabels.get(regs[2]) - HesselIntensifies.distanceInstructions.get(operacao));
-            if(distancia.matches("[0-9]+")) distancia = Integer.parseInt(distancia)-1+"";
-            else distancia = Integer.parseInt(distancia)-1+"";
-            immediate = distancia;
-        }
-
-        // Cria o objeto com todas as informações necessárias
-        TipoI objInstrucao = new TipoI(opcode, rs, rt, immediate);
-
-        // Utiliza as informações armazenadas no objeto para converter a instrução em hexa
-        String resultado = InstructConversion.ItoHexa(objInstrucao);
-
-        // Imprime o resultado
-        System.out.println(resultado);
-
+       
     }
     
     public static void opTipoIH(String IInstructionAsHexa)
