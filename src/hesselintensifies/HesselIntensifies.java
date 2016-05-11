@@ -88,7 +88,7 @@ public class HesselIntensifies {
         
         // Verifica o tipo da instrução e chama o método apropriado
         if (EnumInstrucao.valueOf(opcode).getTipo().equals("R")) {
-            InstructionFactory.opTipoRH(binario, opcode);
+            InstructionFactory.opTipoRH(binary, opcode);
         } else if (EnumInstrucao.valueOf(opcode).getTipo().equals("I")) {
             InstructionFactory.opTipoIH(line);
         } else {

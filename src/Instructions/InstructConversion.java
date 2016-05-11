@@ -2,23 +2,6 @@ package Instructions;
 
 public abstract class InstructConversion{
           
-    public static String RtoHexa(TipoR tipoR){
-        
-        // Cria a string que os valores serão concatenados formando o hexa final
-        String retorno = "0x";
-        
-        // Armazena os valores em binario na string total
-        String total = "";
-        total += integerToBinary(tipoR.opcode, 6);
-        total += integerToBinary(tipoR.rs, 5);
-        total += integerToBinary(tipoR.rt, 5);
-        total += integerToBinary(tipoR.rd, 5);
-        total += integerToBinary(tipoR.shamt, 5);
-        total += integerToBinary(tipoR.funct, 6);
-        
-        // Faz a conversão de binario para hexadecimal
-        return binaryToHexa(total);
-    }
     
     public static String ItoHexa(TipoI tipoI){
  

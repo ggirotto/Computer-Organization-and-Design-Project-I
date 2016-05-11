@@ -66,5 +66,38 @@ public abstract class TipoR{
         return "0x"+hexaInstruction;
     }
     
-    public static String hexaToAlphaNumerical(String toAlphaNumerical){return "";}
+    public static String hexaToAlphaNumerical(String toAlphaNumerical, String opcode){
+        // Retira o opcode do código binário
+        String toAlphaNumericalAsBinary = BaseConversions.FromHexa.toBinary(toAlphaNumerical);
+        toAlphaNumericalAsBinary = toAlphaNumericalAsBinary.substring(6,toAlphaNumericalAsBinary.length());
+
+        // Separa os valores de cada registrador, shamt e funct do número binário total
+        String rs = toAlphaNumericalAsBinary.substring(0,5);
+        String rt = toAlphaNumericalAsBinary.substring(5,10);
+        String rd = toAlphaNumericalAsBinary.substring(10,15);
+        String shamt = toAlphaNumericalAsBinary.substring(15,20);
+        String funct = toAlphaNumericalAsBinary.substring(20,26);
+
+        // Passa os valores de binário para decimal
+        rs = BaseConversions.FromBinary.toDecimal(rs);
+        rt = BaseConversions.FromBinary.toDecimal(rt);
+        rd = BaseConversions.FromBinary.toDecimal(rd);
+        shamt = BaseConversions.FromBinary.toDecimal(shamt);
+
+        // Faz a busca nos enumeradores pelos registradores
+        rs=EnumRegistradores.values()[Integer.parseInt(rs)]+"";
+        rt=EnumRegistradores.values()[Integer.parseInt(rt)]+"";
+        rd=EnumRegistradores.values()[Integer.parseInt(rd)]+"";
+   
+        /*
+            Faz a montagem da instrução. Se for uma instrução de deslocamento de bits (sll ou slt)
+            faz a montagem com o shamt, caso contrario, monta com os 3 registradores.
+        */
+        String instructionAsAlphaNumerical="";
+        if(opcode.equals("sll") || opcode.equals("slt"))
+            instructionAsAlphaNumerical = opcode+" "+rd+","+rt+","+shamt;
+        else instructionAsAlphaNumerical = opcode+" "+rd+","+rs+","+rt;
+       
+        return instructionAsAlphaNumerical;
+    }
 }
