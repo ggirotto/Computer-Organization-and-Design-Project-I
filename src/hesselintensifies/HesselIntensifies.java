@@ -6,24 +6,36 @@ import Enumerations.*;
 import java.io.*;
 import java.util.Scanner;
 
+/*
+  todo onde quer que a gente ponha o PrimeiraPassada() e o SegundaPassada(),
+  tem que resetar o linhaDoPrograma entre eles e reinicializar o inputstream
+  while(inputStream.hasNextLine() PrimeiraPassada(inputStream.nextLine());
+  linhaDoPrograma=0;
+  inputStream = REINICIALIZA INPUT STREAM
+  while(inputStream.hasNextLine() SegundaPassada(inputStream.nextLine());
+  
+*/
+
 public class HesselIntensifies {
     
+    int linhaDoPrograma=0;
+    public static PrintWriter writer;
+    public static Map<String,Integer> labelAddresses = new HashMap<>();
     // Hash Map que salva as labels e sua distancia do inicio do programa
     public static Map<String, Integer> distanceLabels = new HashMap<>();
     // Hash Map que salva as instruções e sua distancia do inicio do programa
     public static Map<String, Integer> distanceInstructions = new HashMap<>();
     // Variavel para adicionar a distancia nos dois hashMaps
-    private static int iteratorDistance = 0;
-    public static int iteratorCancer = 0;
     
      public static void main(String[] args) throws IOException{
+        writer  = new PrintWriter("saida.txt", "UTF-8");
         Scanner in = new Scanner(System.in);
         //Perguntar se quer passar de codigo para hexa ou de hexa para codigo
         System.out.println("1. Código para Hexa");
         System.out.println("2. Hexa para código");
         int choose = 1;
         FileReader fileRead = new FileReader("teste.txt");
-        PrintWriter writer = new PrintWriter("saida.txt", "UTF-8");
+        
         BufferedReader lerArq = new BufferedReader(fileRead);
         String line = lerArq.readLine(); // lê a primeira linha
         while (line != null){
@@ -173,5 +185,31 @@ public class HesselIntensifies {
         if(linha.contains(".")) return false;
         if(linha.contains(":")) return false;
         return true;
+    }
+    
+    public void PrimeiraPassada(String lineBeingRead)
+    {
+        if(lineBeingRead.contains(":"))
+            labelAddresses.put(lineBeingRead.split(":")[0],linhaDoPrograma*4);
+        linhaDoPrograma++;          
+    }
+    
+    public void SegundaPassada(String lineBeingRead, int choose)
+    {
+        if(!(lineBeingRead.contains(":")||lineBeingRead.contains(".")))
+            //todo adicionar a parte que processa o tipo de instrução (só ctrlc ctrlv)
+            if(lineBeingRead.contains("bne")||lineBeingRead.contains("beq"))
+                InstructionFactory.TipoI.alphaNumericalToHexa(
+     /*opcode*/     lineBeingRead.split(" ")[0]+
+     /*  rs  */     lineBeingRead.split(" ")[1].split(",")[0]+
+     /*  rt  */     lineBeingRead.split(" ")[1].split(",")[1]+
+     /*immediate*/  
+             /*TODO dar um jeito de botar aqui o immediate
+             no InstructionFactory, ele lê a label e não
+             processa as distâncias direito. O que tem que fazer é
+             alterar o InstructionFactory.tipoI para que ele use o hashMap
+             labelAddresses que a gente criou agora.
+             */
+                    );
     }
 }
