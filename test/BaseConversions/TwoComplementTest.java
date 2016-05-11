@@ -18,27 +18,27 @@ public class TwoComplementTest {
     }
 
     @Test
-    public void testTwoComplement() {
+    public void testTwoComplement() {                                     
         String toTwoComplement = TwoComplement.twoComplement("10001");
-        assertEquals(toTwoComplement,                        "101111");
+        assertEquals(toTwoComplement,                        "01111"); 
         toTwoComplement = TwoComplement.twoComplement("01111" );
-        assertEquals(toTwoComplement,                 "110001");
+        assertEquals(toTwoComplement,                 "10001");
         toTwoComplement = TwoComplement.twoComplement("000000");
-        assertEquals(toTwoComplement,                 "1000000");
+        assertEquals(toTwoComplement,                 "000000");
         toTwoComplement = TwoComplement.twoComplement("111111");
-        assertEquals(toTwoComplement,                "1000001");
+        assertEquals(toTwoComplement,                 "000001");
     }
 
     @Test
     public void testUnTwoComplement() {
         String toUnTwoComplement = TwoComplement.unTwoComplement("010001" );
-        assertEquals(toUnTwoComplement,                          "010001");
+        assertEquals(toUnTwoComplement,                          "101111");
         toUnTwoComplement = TwoComplement.unTwoComplement("10001");
         assertEquals(toUnTwoComplement,                   "01111");
         toUnTwoComplement = TwoComplement.unTwoComplement("111111");
         assertEquals(toUnTwoComplement,                   "000001");
         toUnTwoComplement = TwoComplement.unTwoComplement("100000");
-        assertEquals(toUnTwoComplement,                   "000000");
+        assertEquals(toUnTwoComplement,                   "100000");
     }
 
     /*se o primeiro dígito for 1 1 -> corta fora o 1, aplica o complemento de 2,

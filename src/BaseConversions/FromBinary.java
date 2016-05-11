@@ -16,6 +16,11 @@ public abstract class FromBinary{
         return toBinary;
     }
     
+    public static String toDecimalUnsigned (String toDecimal)
+    {
+        return ""+Integer.parseInt(toDecimal,2);
+    }
+            
     public static String toDecimal(String toDecimal)
     {
         String toDecimaled = "";
