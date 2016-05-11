@@ -31,6 +31,17 @@ public class TwoComplementTest {
 
     @Test
     public void testUnTwoComplement() {
+        String toUnTwoComplement = TwoComplement.unTwoComplement("010001" );
+        assertEquals(toUnTwoComplement,                          "010001");
+        toUnTwoComplement = TwoComplement.unTwoComplement("10001");
+        assertEquals(toUnTwoComplement,                   "01111");
+        toUnTwoComplement = TwoComplement.unTwoComplement("111111");
+        assertEquals(toUnTwoComplement,                   "000001");
+        toUnTwoComplement = TwoComplement.unTwoComplement("100000");
+        assertEquals(toUnTwoComplement,                   "000000");
     }
+
+    /*se o primeiro dígito for 1 1 -> corta fora o 1, aplica o complemento de 2,
+    corta fora o 1 que aparece e devolve o resto com um 0 na frente*/
     
 }

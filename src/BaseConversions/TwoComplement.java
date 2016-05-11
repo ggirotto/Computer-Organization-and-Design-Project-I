@@ -1,14 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package BaseConversions;
 
 /**
  *
  * @author visinius
- */
+ * Resumão do funcionamento:
+ * twoComplement: pega uma string de tamanho N, faz o complemento de 2 dela
+ * (não verifica NADA), completa com todos os zeros necessários à esquerda 
+ * (o motivo disso é explicado no método) e adiciona um "1" no final, devolvendo
+ * uma String de tamanho N+1 - o que faz sentido
+ * 
+ * unTwoComplement: pega uma string de tamanho N que É uma representação em
+ * complemento de 2 e, se for positivo (primeiro dígito 0), devolve como está.
+ * Caso contrário (primeiro dígito 1 - é negativo), o método corta fora o 1,
+ * aplica o complemento de 2 (método acima) sobre essa string, corta fora o 1
+ * adicionado pelo método no final e adiciona um 0 (para representar que está 
+ * sem sinal). Devolve uma string de tamanho N.
+*/
 public abstract class TwoComplement {
     public static String twoComplement(String toTwoComplement){
         /*
@@ -18,6 +25,13 @@ public abstract class TwoComplement {
             bits) e adiciona um "1" no começo para indicar que é negativo com 
             representação de complemento de 2. 
             Qualquer uso deste método que adicione um "1" depois está errado.
+        
+            O problema é que é meio feio de enxergar porque o toTwoComplement 
+            (argumento do método) é um valor unsigned, e tanto o resultado
+            retornado quanto o argumento e o resultado do unTwoComplement são
+            valores n+1 bits - no caso, o argumento é signed também e acho que
+            a resposta deve ser retornada completando os zeros p ficar com o
+            mesmo tamanho. Meio tosco, mas enfim né.
         */
         
         String oneComplement = "";
@@ -55,7 +69,7 @@ public abstract class TwoComplement {
         de 2, corta fora o primeiro dígito (que é um "1" representando o negativo)
         e adiciona um "0" no lugar dele
         */
-        return "0"+twoComplement(twoComplemented).substring(1);
+        return "0"+twoComplement(twoComplemented.substring(1)).substring(1);
     }
     
     
