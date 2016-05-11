@@ -4,45 +4,7 @@ import Enumerations.*;
 import Instructions.*;
 import java.util.Map;
 
-public class CalculateInstruction {
-    // Método para operações do tipo R (instruct to hexa)
-    public static void opTipoR(String line) {
-        
-        String[] parts = line.split(" "); 
-        String operacao = parts[0];
-        String opcode = EnumInstrucao.valueOf(operacao).getOpcode();        
-        String funct = EnumInstrucao.valueOf(operacao).getFunct();
-        
-        //Separa os registradores/valores
-        String[] regs = parts[1].split(",");
-
-        // Resgata o valor em decimal dos registradores da operação
-        String rd = EnumRegistradores.valueOf(regs[0]).ordinal()+"";
-        String rs = EnumRegistradores.valueOf(regs[1]).ordinal()+"";
-
-        // Inicializa variáveis que serão ajustadas no próximo IF
-        String rt;
-        String shamt = "0";
-
-        /* Se o 3 elemento é um registrador, não é uma operação que usa o shamt,
-         então mantenha ela em 0 e resgata o valor do registrador rd
-         Caso contrário, seta o registrador rd em 0 e armazena o valor do shamt
-        */
-
-        if (regs[2].contains("$")) {
-            rt = EnumRegistradores.valueOf(regs[2]).ordinal()+"";
-        } else {
-            rt = rs;
-            rs = "0";
-            shamt = regs[2];
-        }
-
-        TipoR objInstrucao = new TipoR(opcode, rs, rt, rd, shamt, funct);
-
-        // Utiliza as informações armazenadas no objeto para converter a instrução em hexa
-        String resultado = InstructConversion.RtoHexa(objInstrucao);
-        System.out.println(resultado);
-    }
+public class InstructionFactory {
 
     // Método para operações do tipo R (hexa to instruct)
     public static void opTipoRH(String binary, String opcode) {
@@ -154,7 +116,7 @@ public class CalculateInstruction {
         > rd (5 bits)
         > immediate (16 bits)
         */
-        String IInstructionAsBinary = InstructConversion.hexaToBinary(IInstructionAsHexa);
+        String IInstructionAsBinary = BaseConversions.FromHexa.toBinary(IInstructionAsHexa);
         String IInstructionAsString = "";
         
         String opcode = IInstructionAsBinary.substring(0,6);

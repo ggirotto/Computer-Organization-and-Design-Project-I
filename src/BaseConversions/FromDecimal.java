@@ -27,7 +27,7 @@ public abstract class FromDecimal{
         
         return toHexaFromDecimal;
     }
-    
+       
     public static String toBinary(String toBinary)
     {
         String toBinaryFromDecimal="";
@@ -38,6 +38,13 @@ public abstract class FromDecimal{
        else toBinaryFromDecimal = "0"+Integer.toString(Integer.parseInt(toBinary),2);
         
        return toBinaryFromDecimal;
+    }
+    
+    public static String toBinaryUnsigned(String toBinary,int desiredSize)
+    {
+        String binaried = Integer.toBinaryString(Integer.parseInt(toBinary));
+        while(binaried.length()<desiredSize) binaried="0"+binaried;
+        return binaried;
     }
     
     

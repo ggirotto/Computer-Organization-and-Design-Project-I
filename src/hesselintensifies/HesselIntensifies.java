@@ -40,11 +40,11 @@ public class HesselIntensifies {
         
         // Verifica o tipo da instrução e chama o método apropriado
         if (EnumInstrucao.valueOf(operacao).getTipo().equals("R")) {
-            CalculateInstruction.opTipoR(line);
+            InstructionFactory.opTipoR(line);
         } else if (EnumInstrucao.valueOf(operacao).getTipo().equals("I")) {
-            CalculateInstruction.opTipoI(line);
+            InstructionFactory.opTipoI(line);
         } else if (EnumInstrucao.valueOf(operacao).getTipo().equals("J")){
-            CalculateInstruction.opTipoJ(line);
+            InstructionFactory.opTipoJ(line);
         } else{
             System.out.println("Esta instrução não consta no nosso banco de dados");
             return;
@@ -88,11 +88,11 @@ public class HesselIntensifies {
         
         // Verifica o tipo da instrução e chama o método apropriado
         if (EnumInstrucao.valueOf(opcode).getTipo().equals("R")) {
-            CalculateInstruction.opTipoRH(binario, opcode);
+            InstructionFactory.opTipoRH(binario, opcode);
         } else if (EnumInstrucao.valueOf(opcode).getTipo().equals("I")) {
-            CalculateInstruction.opTipoIH(line);
+            InstructionFactory.opTipoIH(line);
         } else {
-            CalculateInstruction.opTipoJH(binario, opcode);
+            InstructionFactory.opTipoJH(binario, opcode);
         }
         
     }

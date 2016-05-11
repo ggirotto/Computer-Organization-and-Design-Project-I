@@ -17,6 +17,8 @@ public enum EnumInstrucao {
     sw("I","43","0"),
     sltiu("I","11","0");
     
+    //lw $rs, imm($rt)
+    
     private final String tipoInstrucao,valorOpcode,valorFunct;
     
     EnumInstrucao(String newTipo, String newOpcode, String newFunct){
