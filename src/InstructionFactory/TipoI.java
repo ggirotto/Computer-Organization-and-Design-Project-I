@@ -68,8 +68,8 @@ public abstract class TipoI{
 
         
         String binOpcode= BaseConversions.FromDecimal.toBinaryUnsigned(opcode,6);
-        String binRt = BaseConversions.FromDecimal.toBinaryUnsigned(rt,5);
         String binRs = BaseConversions.FromDecimal.toBinaryUnsigned(rs,5);
+        String binRt = BaseConversions.FromDecimal.toBinaryUnsigned(rt,5);
         String binImmediate = BaseConversions.FromDecimal.toBinarySigned(immediate,16);
         
         String hexaInstruction=FromBinary.toHexa(binOpcode+binRs+binRt+binImmediate,8);
