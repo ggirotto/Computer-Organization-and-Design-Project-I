@@ -84,9 +84,8 @@ public class HesselIntensifies {
             }
             
             lineBeingRead = lerArq.readLine();
-            writer.close();
         }
-                
+        writer.close();
     }
          
     public static String instructionToHexa(String line) {

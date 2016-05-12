@@ -30,12 +30,12 @@ public abstract class TipoI{
 
         // Resgata o valor em decimal dos registradores da operação
         // verifica se é sw/lw, dado que a informação está disposta de forma diferente
-        String rs = EnumRegistradores.valueOf(regs[0]).ordinal()+"";
-        String rt;
+        String rt = EnumRegistradores.valueOf(regs[0]).ordinal()+"";
+        String rs;
         if(regs[1].contains("(")){ //se tem parêntese, com certeza fecha depois e com certeza é lw/sw
-            rt = EnumRegistradores.valueOf
+            rs = EnumRegistradores.valueOf
         (regs[1].substring(regs[1].indexOf('(')+1, regs[1].indexOf(')'))).ordinal()+"";     
-        }else rt = EnumRegistradores.valueOf(regs[1]).ordinal()+""; //se não for sw/lw, o rs tá do lado já
+        }else rs = EnumRegistradores.valueOf(regs[1]).ordinal()+""; //se não for sw/lw, o rs tá do lado já
         //rt, rs, immediate ou p/ sw e lw -> rt, immediate(rs)
 
         String immediate="";
@@ -68,8 +68,8 @@ public abstract class TipoI{
 
         
         String binOpcode= BaseConversions.FromDecimal.toBinaryUnsigned(opcode,6);
-        String binRs = BaseConversions.FromDecimal.toBinaryUnsigned(rs,5);
         String binRt = BaseConversions.FromDecimal.toBinaryUnsigned(rt,5);
+        String binRs = BaseConversions.FromDecimal.toBinaryUnsigned(rs,5);
         String binImmediate = BaseConversions.FromDecimal.toBinarySigned(immediate,16);
         
         String hexaInstruction=FromBinary.toHexa(binOpcode+binRs+binRt+binImmediate,8);
