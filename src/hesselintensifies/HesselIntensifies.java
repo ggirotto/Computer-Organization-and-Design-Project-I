@@ -18,7 +18,7 @@ import java.util.Scanner;
 
 public class HesselIntensifies {
     
-    int linhaDoPrograma=0;
+    public static int linhaDoPrograma=0;
     public static PrintWriter writer;
     public static Map<String,Integer> labelAddresses = new HashMap<>();
     // Hash Map que salva as labels e sua distancia do inicio do programa
@@ -103,7 +103,7 @@ public class HesselIntensifies {
         if (EnumInstrucao.valueOf(operacao).getTipo().equals("R")) {
             return InstructionFactory.TipoR.alphaNumericalToHexa(line);
         } else if (EnumInstrucao.valueOf(operacao).getTipo().equals("I")) {
-            return InstructionFactory.TipoI.alphaNumericalToHexa(line,lineNumber);
+            return InstructionFactory.TipoI.alphaNumericalToHexa(line);
         } else if (EnumInstrucao.valueOf(operacao).getTipo().equals("J")){
             return InstructionFactory.TipoJ.alphaNumericalToHexa(line);
         }

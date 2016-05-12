@@ -80,6 +80,7 @@ public abstract class TipoR{
         rt = BaseConversions.FromBinary.toDecimalUnsigned(rt);
         rd = BaseConversions.FromBinary.toDecimalUnsigned(rd);
         shamt = BaseConversions.FromBinary.toDecimalUnsigned(shamt);
+        funct = BaseConversions.FromBinary.toDecimalUnsigned(funct);
 
         // Faz a busca nos enumeradores pelos registradores
         rs=EnumRegistradores.values()[Integer.parseInt(rs)]+"";

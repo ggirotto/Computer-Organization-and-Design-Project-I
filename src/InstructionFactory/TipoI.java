@@ -17,7 +17,7 @@ import hesselintensifies.HesselIntensifies;
 public abstract class TipoI{
     
     
-    public static String alphaNumericalToHexa(String toHexa, int lineNumber){
+    public static String alphaNumericalToHexa(String toHexa){
     
         String [] parts = toHexa.split(" ");
 
@@ -61,7 +61,7 @@ public abstract class TipoI{
         //chegou aqui é uma label isolada e tem que botar a distância DA LABEL
         //para a instrução de agora no immediate
         //instrução é na forma instrucao rs,rt,label
-        else immediate=""+(HesselIntensifies.labelAddresses.get(regs[2])-(lineNumber*4))/4;
+        else immediate=""+(HesselIntensifies.labelAddresses.get(regs[2])-(HesselIntensifies.linhaDoPrograma*4))/4;
 
         
         String binOpcode= BaseConversions.FromDecimal.toBinaryUnsigned(opcode,6);
