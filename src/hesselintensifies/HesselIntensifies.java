@@ -174,6 +174,7 @@ public class HesselIntensifies {
     {
         if(lineBeingRead.contains(":"))
             labelAddresses.put(lineBeingRead.split(":")[0],linhaDoPrograma*4);
-        linhaDoPrograma++;          
+        else if(!(lineBeingRead.contains(".")) && !(lineBeingRead.equals("")))
+            linhaDoPrograma++;          
     }
 }
