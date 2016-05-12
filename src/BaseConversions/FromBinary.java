@@ -31,9 +31,13 @@ public abstract class FromBinary{
     }
     
     //FUNCIONANDO, NÃO MEXER MAIS
-    public static String toHexa(String toHexa)
+    public static String toHexa(String toHexa, int desiredSize)
     {
-        return "0x"+Integer.toString(Integer.parseInt(toHexa,2),16);
+        long decimal = Long.parseLong(toHexa,2);
+        String hexa = Long.toString(decimal,16);
+        while (hexa.length()<desiredSize) hexa="0"+hexa;
+        
+        return "0x"+hexa;
     }
     
 }

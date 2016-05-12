@@ -46,12 +46,8 @@ public class FromBinaryTest {
     @Test
     public void toHexaTest()
     {
-        String binary = "1111";
-        assertEquals("0xf",FromBinary.toHexa(binary));
-        binary = "0111";
-        assertEquals("0x7",FromBinary.toHexa(binary));
-        binary = "11110000101011100010";
-        assertEquals("0xf0ae2",FromBinary.toHexa(binary));
+        String binary = "11111111111111111111111111111111";
+        assertEquals("0xffffffff",FromBinary.toHexa(binary,8));
     }
 
 }

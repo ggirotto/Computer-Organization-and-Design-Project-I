@@ -15,38 +15,28 @@ import java.util.Map;
  */
 public abstract class TipoJ{
    
+    //aqui a única sintaxe possível é o opcode e um valor "imediato" de 26 bits
+    //o valor imediato sempre é POSITIVO, então pode ser tratado como unsigned
+    //desprezar os 4 MSB e os 2 LSB é o de menos.
     public static String alphaNumericalToHexa(String toHexa){
-        // Separa as informações da linha por espaço
-        String [] parts = toHexa.split(" ");
-
-        // Pega a operação (exemplo: jal)
-        String operacao = parts[0];
-
-        // Pega o opcode da operação acima
-        EnumInstrucao instruction = EnumInstrucao.valueOf(operacao);
+                   
+        //Pega o opcode e a label (ambos como strings)
+        String opcode = EnumInstrucao.valueOf(toHexa.split(" ")[0]).getOpcode();
+        String label = toHexa.split(" ")[1];
         
-        String opcode = instruction.getOpcode();
+        //Pega o endereço associado à label como um inteiro 
+        //(contado a partir de 0 em decimal indo de 4 em 4)
+        int jumpAddress = HesselIntensifies.labelAddresses.get(label);
         
-        // Pega a label
-        String label = parts[1];
         
-        String immediate = ((HesselIntensifies.distanceLabels.get(label)) * 4)+"";
+        String binOpcode = BaseConversions.FromDecimal.toBinaryUnsigned(opcode,6);
+        String binTargetAddress = Integer.toBinaryString(Integer.parseInt("00400000", 16)+jumpAddress);
+        while(binTargetAddress.length()<32) binTargetAddress="0"+binTargetAddress;
+        binTargetAddress = binTargetAddress.substring(4,binTargetAddress.length()-2);
+       
+        String toHexaTarget = binOpcode+binTargetAddress;
         
-        String BinOpcode = BaseConversions.FromDecimal.toBinaryUnsigned(opcode,6);
-        
-        // Passa o valor imediato para hexadecimal:
-        String hexaImmediate = BaseConversions.FromDecimal.toHexaWAddres(immediate);
-        
-        // Passa o valor em hexa para binário:
-        String BinImmediate = BaseConversions.FromHexa.toBinary("0x" + hexaImmediate);
-        
-        // Retira os 4 mais significativos e os dois menos
-        String finalImmediate = BinImmediate.substring(4,BinImmediate.length()-2);
-        String teste = BinOpcode+finalImmediate;
-        String hexaInstruction = BaseConversions.FromBinary.toHexa(teste);
-        
-        return "0x"+hexaInstruction;
-
+        return BaseConversions.FromBinary.toHexa(toHexaTarget,8);
     }
     
     public static String hexaToAlphaNumerical(String toAlphaNumerical, String opcode){
@@ -62,7 +52,7 @@ public abstract class TipoJ{
         immediate = newImmediate + "00";
         
         // Passa o valor para hexa
-        immediate = BaseConversions.FromBinary.toHexa(immediate);
+        immediate = BaseConversions.FromBinary.toHexa(immediate,4);
         
         // Pega a diferença entre o endereço da label e o endereço de inicio
         String distance = (Integer.parseInt(immediate) - 400000)+"";

@@ -20,7 +20,7 @@ public abstract class FromDecimal{
         
         // Adiciona os 0's necessários para completar uma operação em hexa (8 bytes)
         for(int i=0; i<=(4-toHexaFromDecimal.length()); i++) toHexaFromDecimalFinal += "0";
-        toHexaFromDecimalFinal+=toHexaFromDecimal;
+        toHexaFromDecimalFinal=toHexaFromDecimalFinal+toHexaFromDecimal;
         return toHexaFromDecimalFinal;
     }
     

@@ -14,21 +14,16 @@ import org.junit.Before;
  *
  * @author visinius
  */
-public class TipoITest {
+public class TipoJTest {
     
-    public TipoITest() {
-    }
+    public TipoJTest() {}
 
-//    @Before
-//    public void populateLabelAddresses(){
-//        for(int i=0;i<10000;i++) HesselIntensifies.labelAddresses.put("vinicius"+i, i*4);
-//    }
-    
-//    @Test
-//    public void testAlphaNumericalToHexa() {
-//        String toHexa="beq $t0,$t0,vinicius19";
-//        assertEquals(InstructionFactory.TipoI.alphaNumericalToHexa(toHexa,0),"0x11080002");
-//    }
+    @Test
+    public void testAlphaNumericalToHexa() {
+        for(int i=0;i<100;i++) HesselIntensifies.labelAddresses.put("vinicius"+i, i*4);
+        String toHexa="j vinicius20";
+        assertEquals(InstructionFactory.TipoJ.alphaNumericalToHexa(toHexa),"0x08100014");
+    }
 
     @Test
     public void testHexaToAlphaNumerical() {

@@ -66,7 +66,7 @@ public class HesselIntensifies {
             }
             else{
                 if(choose==1){
-                    String result = instructionToHexa(line);
+                    String result = instructionToHexa(line,0); //dar um jeito nisso
                     writer.println(result);
                 }else{
                     String result = hexaToInstruction(line);
@@ -80,8 +80,8 @@ public class HesselIntensifies {
         writer.close();
     }
 
-    public static String instructionToHexa(String line) {
-
+    public static String instructionToHexa(String line, int lineNumber) {
+        
         // Separa as informações da linha por espaço
         String[] parts = line.split(" ");
 
@@ -103,7 +103,7 @@ public class HesselIntensifies {
         if (EnumInstrucao.valueOf(operacao).getTipo().equals("R")) {
             return InstructionFactory.TipoR.alphaNumericalToHexa(line);
         } else if (EnumInstrucao.valueOf(operacao).getTipo().equals("I")) {
-            return InstructionFactory.TipoI.alphaNumericalToHexa(line);
+            return InstructionFactory.TipoI.alphaNumericalToHexa(line,lineNumber);
         } else if (EnumInstrucao.valueOf(operacao).getTipo().equals("J")){
             return InstructionFactory.TipoJ.alphaNumericalToHexa(line);
         }

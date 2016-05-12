@@ -58,7 +58,7 @@ public abstract class TipoR{
         String binShamt = BaseConversions.FromDecimal.toBinaryUnsigned(shamt,5);
         String binFunct = BaseConversions.FromDecimal.toBinaryUnsigned(funct,6);
         
-        String hexaInstruction=FromBinary.toHexa(binOpcode+binRs+binRt+binRd+binShamt+binFunct);
+        String hexaInstruction=FromBinary.toHexa(binOpcode+binRs+binRt+binRd+binShamt+binFunct,8);
                 
         return "0x"+hexaInstruction;
     }

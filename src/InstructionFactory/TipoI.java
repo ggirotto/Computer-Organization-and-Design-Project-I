@@ -16,56 +16,62 @@ import hesselintensifies.HesselIntensifies;
  */
 public abstract class TipoI{
     
-    public static String alphaNumericalToHexa(String toHexa){
+    
+    public static String alphaNumericalToHexa(String toHexa, int lineNumber){
     
         String [] parts = toHexa.split(" ");
 
-        // Pega a operação (exemplo: bne)
-        String operacao = parts[0];
+        String nomeDaInstrucao = parts[0];
 
-        EnumInstrucao instruction = EnumInstrucao.valueOf(operacao);       
-        String opcode = instruction.getOpcode();
+        String opcode = EnumInstrucao.valueOf(nomeDaInstrucao).getOpcode();       
         
         //Separa os registradores/valores
         String [] regs = parts[1].split(",");
 
         // Resgata o valor em decimal dos registradores da operação
-        String rs = EnumRegistradores.valueOf(regs[0]).ordinal()+"";
-        String rt;
-        if(regs[1].contains("(")){
-            rt = regs[1];
-        }else rt = EnumRegistradores.valueOf(regs[1]).ordinal()+"";
+        // verifica se é sw/lw, dado que a informação está disposta de forma diferente
+        String rt = EnumRegistradores.valueOf(regs[0]).ordinal()+"";
+        String rs;
+        if(regs[1].contains("(")){ //se tem parêntese, com certeza fecha depois e com certeza é lw/sw
+            rs = EnumRegistradores.valueOf
+        (regs[1].substring(regs[1].indexOf('(')+1, regs[1].indexOf(')'))).ordinal()+"";     
+        }else rs = EnumRegistradores.valueOf(regs[1]).ordinal()+""; //se não for sw/lw, o rs tá do lado já
+        //rt, rs, immediate ou p/ sw e lw -> rt, immediate(rs)
 
-        String immediate;
+        String immediate="";
 
-        /* Verifica se é um valor imediate, uma label ou um offset
+        /* Verifica se é um valor immediate, uma label ou um offset
          Se for uma label, usa as informações dos hashmaps para calcular a distancia
          desta instrução para a label
          No final, seta a string immediate para o valor imediato ou o valor calculado*/
-        if(rt.contains("(")){
-            String aux = rt;
-            rt = rs;
-            rs = aux.substring(aux.indexOf('(')+1, aux.indexOf(')'));
-            rs = EnumRegistradores.valueOf(rs).ordinal()+"";
-            immediate = aux.substring(0, aux.indexOf('('));
-        }else if(regs[2].matches("[0-9]+") || regs[2].matches("-[0-9]+")){
-            immediate = regs[2];
-        }
-        else{
-            String distancia = ""+(HesselIntensifies.distanceLabels.get(regs[2]) - HesselIntensifies.distanceInstructions.get(operacao));
-            if(distancia.matches("[0-9]+")) distancia = Integer.parseInt(distancia)-1+"";
-            else distancia = Integer.parseInt(distancia)-1+"";
-            immediate = distancia;
-        }
+        
+        /*if -> verifica se é um lw/sw -> É COM SINAL SEMPRE
+        else if -> não é um lw/sw, mas pode ter um immediate em forma numérica
+        -> addi por exemplo. esse immediate é COM SINAL SEMPRE
+        else -> não tem um immediate "direto", então é uma label (beq/bne)
+        essa label é COM SINAL SEMRPE (na hora de passar p hexa por ex pq bne/beq
+        podem ir para cima
+        
+        qualquer que seja o immediate, ele LEVA SINAL. então, deve ser tratado
+        signed. bom lembrar que é só beq/bne que chega até aqui
+        */
+        
+        if(regs[1].contains("(")) immediate=regs[1].substring(0,regs[1].indexOf('('));
+        else if(regs[2].matches("-[0-9]+|[0-9]+")) immediate = regs[2];
+        //chegou aqui é uma label isolada e tem que botar a distância DA LABEL
+        //para a instrução de agora no immediate
+        //instrução é na forma instrucao rs,rt,label
+        else immediate=""+(HesselIntensifies.labelAddresses.get(regs[2])-(lineNumber*4))/4;
 
+        
         String binOpcode= BaseConversions.FromDecimal.toBinaryUnsigned(opcode,6);
         String binRs = BaseConversions.FromDecimal.toBinaryUnsigned(rs,5);
         String binRt = BaseConversions.FromDecimal.toBinaryUnsigned(rt,5);
         String binImmediate = BaseConversions.FromDecimal.toBinarySigned(immediate,16);
         
-        String hexaInstruction=FromBinary.toHexa(binOpcode+binRs+binRt+binImmediate);
+        String hexaInstruction=FromBinary.toHexa(binOpcode+binRs+binRt+binImmediate,8);
         
-        return "0x"+hexaInstruction;
+        return hexaInstruction;
     }
     
     public static String hexaToAlphaNumerical(String toAlphaNumerical){
