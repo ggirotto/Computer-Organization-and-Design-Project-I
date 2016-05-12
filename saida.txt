@@ -1,0 +1,87 @@
+.text
+
+.globl main
+
+
+main:
+
+Esta instrução não consta no nosso banco de dados
+
+Esta instrução não consta no nosso banco de dados
+
+Esta instrução não consta no nosso banco de dados
+
+mainhere:
+
+0x8d280000
+
+0x8d6a0000
+
+
+0x27bd000c
+
+0xad3d0000
+
+0xad7d0004
+
+0xad9d0008
+
+Esta instrução não consta no nosso banco de dados
+
+Esta instrução não consta no nosso banco de dados
+
+
+compare:
+
+0x8c9d0000
+
+0x8cbd0004
+
+0x8cdd0008
+
+0x27bdfff4
+
+Esta instrução não consta no nosso banco de dados
+
+Esta instrução não consta no nosso banco de dados
+
+0x10850002
+
+0x25080004
+
+0x08100003
+
+
+saoIguais:
+
+0x25080004
+
+0x254a0004
+
+0x08100003
+
+
+padrao:
+
+0x24c60001
+
+0x00661821
+0x25080004
+
+0x254afff4
+
+0x08100003
+
+
+acabou:
+Esta instrução não consta no nosso banco de dados
+
+Esta instrução não consta no nosso banco de dados
+
+
+
+.data
+
+vetorDados: .word 1 2 3 1 2 3 1 3 3 1 2 3 0
+
+vetorPadrao: .word 1 2 3 0

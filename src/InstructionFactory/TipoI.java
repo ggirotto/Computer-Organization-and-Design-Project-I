@@ -64,7 +64,7 @@ public abstract class TipoI{
         //chegou aqui é uma label isolada e tem que botar a distância DA LABEL
         //para a instrução de agora no immediate
         //instrução é na forma instrucao rs,rt,label
-        else immediate=""+(HesselIntensifies.labelAddresses.get(regs[2])-((HesselIntensifies.linhaDoPrograma+1)*4))/4;
+        else immediate=""+(((HesselIntensifies.labelAddresses.get(regs[2])-((HesselIntensifies.linhaDoPrograma)*4))/4)-1);
 
         
         String binOpcode= BaseConversions.FromDecimal.toBinaryUnsigned(opcode,6);
@@ -72,7 +72,7 @@ public abstract class TipoI{
         String binRs = BaseConversions.FromDecimal.toBinaryUnsigned(rs,5);
         String binImmediate = BaseConversions.FromDecimal.toBinarySigned(immediate,16);
         
-        String hexaInstruction=FromBinary.toHexa(binOpcode+binRs+binRt+binImmediate,8);
+        String hexaInstruction=FromBinary.toHexa(binOpcode+binRt+binRs+binImmediate,8);
         
         return hexaInstruction;
     }
