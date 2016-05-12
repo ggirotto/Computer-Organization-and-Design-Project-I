@@ -30,14 +30,21 @@ public abstract class TipoI{
 
         // Resgata o valor em decimal dos registradores da operação
         // verifica se é sw/lw, dado que a informação está disposta de forma diferente
-        String rt = EnumRegistradores.valueOf(regs[0]).ordinal()+"";
-        String rs;
-        if(regs[1].contains("(")){ //se tem parêntese, com certeza fecha depois e com certeza é lw/sw
-            rs = EnumRegistradores.valueOf
-        (regs[1].substring(regs[1].indexOf('(')+1, regs[1].indexOf(')'))).ordinal()+"";     
-        }else rs = EnumRegistradores.valueOf(regs[1]).ordinal()+""; //se não for sw/lw, o rs tá do lado já
+        String rt = "";
+        String rs = "";
+        
+        if(nomeDaInstrucao.equals("bne")||nomeDaInstrucao.equals("beq")){
+            rs = EnumRegistradores.valueOf(regs[0]).ordinal()+"";
+            rt = EnumRegistradores.valueOf(regs[1]).ordinal()+"";
+        }
+        else{
+            rt = EnumRegistradores.valueOf(regs[0]).ordinal()+"";
+            if(regs[1].contains("(")){ //se tem parêntese, com certeza fecha depois e com certeza é lw/sw
+                rs = EnumRegistradores.valueOf
+                (regs[1].substring(regs[1].indexOf('(')+1, regs[1].indexOf(')'))).ordinal()+"";     
+            }else rs = EnumRegistradores.valueOf(regs[1]).ordinal()+""; //se não for sw/lw, o rs tá do lado já
         //rt, rs, immediate ou p/ sw e lw -> rt, immediate(rs)
-
+        }
         String immediate="";
 
         /* Verifica se é um valor immediate, uma label ou um offset
@@ -64,21 +71,30 @@ public abstract class TipoI{
         //chegou aqui é uma label isolada e tem que botar a distância DA LABEL
         //para a instrução de agora no immediate
         //instrução é na forma instrucao rs,rt,label
-        else immediate=""+(((HesselIntensifies.labelAddresses.get(regs[2])-((HesselIntensifies.linhaDoPrograma)*4))/4)-1);
-
+        //else immediate=""+(((HesselIntensifies.labelAddresses.get(regs[2])
+        //                 -((HesselIntensifies.linhaDoPrograma)*4))/4)-1);
+        else immediate=""+(HesselIntensifies.labelAddresses.get(regs[2])/4
+                          -HesselIntensifies.linhaDoPrograma -1);
         
+/*        linha aonde eu vou - (linha onde estou +1)
+        
+          immediate = endereço do label/4 - (minha linha +1)
+        
+          immediate=""+     (HesselIntensifies.labelAddresses.get(regs[2])/4 -
+                            HesselIntensifies.linhaDoPrograma -1);
+  */      
         String binOpcode= BaseConversions.FromDecimal.toBinaryUnsigned(opcode,6);
         String binRt = BaseConversions.FromDecimal.toBinaryUnsigned(rt,5);
         String binRs = BaseConversions.FromDecimal.toBinaryUnsigned(rs,5);
         String binImmediate = BaseConversions.FromDecimal.toBinarySigned(immediate,16);
         
-        String hexaInstruction=FromBinary.toHexa(binOpcode+binRt+binRs+binImmediate,8);
+        String hexaInstruction=FromBinary.toHexa(binOpcode+binRs+binRt+binImmediate,8);
         
         return hexaInstruction;
     }
     
     public static String hexaToAlphaNumerical(String toAlphaNumerical){
-        
+        //pega com 0x
         //Passa para binário, já que certos dígitos hexa têm informação sobre mais de
         //um campo da instrução.
         String instructionAsBinary = BaseConversions.FromHexa.toBinary(toAlphaNumerical);

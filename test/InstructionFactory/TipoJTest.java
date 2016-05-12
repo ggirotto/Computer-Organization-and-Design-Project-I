@@ -20,19 +20,19 @@ public class TipoJTest {
     
     @Before
     public void populateAddresses(){
-        for(int i=0;i<100;i++) HesselIntensifies.labelAddresses.put("vinicius"+i, i*4);
+        for(int i=0;i<20;i++) HesselIntensifies.labelAddresses.put("vinicius"+i, i*4);
+    }
+
+    @Test
+    public void testAlphaNumericalToHexa() {   
+        String toHexa="j vinicius15";
+        assertEquals(InstructionFactory.TipoJ.alphaNumericalToHexa(toHexa),"0x0810000f");
     }
 
 //    @Test
-//    public void testAlphaNumericalToHexa() {   
-//        String toHexa="j vinicius20";
-//        assertEquals(InstructionFactory.TipoJ.alphaNumericalToHexa(toHexa),"0x08100014");
+//    public void testHexaToAlphaNumerical() {
+//        String toAlphaN="0x0810000d";
+//        assertEquals(InstructionFactory.TipoJ.hexaToAlphaNumerical(toAlphaN),"j vinicius13");
 //    }
-
-    @Test
-    public void testHexaToAlphaNumerical() {
-        String toAlphaN="0x0810000d";
-        assertEquals(InstructionFactory.TipoJ.hexaToAlphaNumerical(toAlphaN),"j vinicius13");
-    }
     
 }

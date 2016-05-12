@@ -65,7 +65,7 @@ public abstract class TipoR{
     
     //supondo que eu já to recebendo uma tipo R
     public static String hexaToAlphaNumerical(String toAlphaNumerical){
-        
+        //pega com 0x
         //passa tudo para binário e localiza a operação
         String rInstructionAsBinary = BaseConversions.FromHexa.toBinary(toAlphaNumerical);
         

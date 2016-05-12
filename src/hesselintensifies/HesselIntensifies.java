@@ -24,14 +24,20 @@ public class HesselIntensifies {
     public static Map<String,Integer> labelAddresses = new HashMap<>();
     
      public static void main(String[] args) throws IOException{
-        writer  = new PrintWriter("saida.txt", "UTF-8");
         Scanner in = new Scanner(System.in);
         //Perguntar se quer passar de codigo para hexa ou de hexa para codigo
         System.out.println("1. Código para Hexa");
         System.out.println("2. Hexa para código");
-        int choose = 1;
-        FileReader fileRead = new FileReader("teste.txt");
-        
+        int choose = Integer.parseInt(in.nextLine());
+        FileReader fileRead=new FileReader("dummy.txt");
+        if(choose==1){
+            fileRead = new FileReader("teste.txt");
+            writer  = new PrintWriter("saida.txt", "UTF-8");
+        }
+        else if(choose==2) {
+            fileRead = new FileReader("teste2.txt");
+            writer  = new PrintWriter("saida2.txt", "UTF-8");
+        }
         BufferedReader lerArq = new BufferedReader(fileRead);
         String lineBeingRead = lerArq.readLine(); // lê a primeira linha
         
@@ -44,11 +50,11 @@ public class HesselIntensifies {
         linhaDoPrograma = 0;
         
         // Volta para o inicio do arquivo
-        fileRead = new FileReader("teste.txt");
+        if(choose==1) fileRead = new FileReader("teste.txt");
+        else fileRead = new FileReader("teste2.txt");
         lerArq = new BufferedReader(fileRead);
         lineBeingRead = lerArq.readLine(); // lê a primeira linha
-        
-        
+          
         //Segunda Passada
         while (lineBeingRead != null) {
             if(!(limpaCodigo(lineBeingRead))){
@@ -57,20 +63,14 @@ public class HesselIntensifies {
                 continue;
             }
             
-            //Detecta instruções em hexa com a opção instruction to hexa ligada
-            if(lineBeingRead.substring(0, 2).equals("0x") && choose==1){
+            //Se o programa encontrar instruções em hexa no modo an->hex
+            //ou em an no modo hex->a, pula aquela linha
+            
+            if(lineBeingRead.substring(0, 2).equals("0x") ==(choose==1)){
                     lineBeingRead = lerArq.readLine();
                     linhaDoPrograma++;
                     continue;
             }
-
-            //Detecta instruções com a opção hexa to instruction ligada
-            if(!(lineBeingRead.substring(0, 2).equals("0x")) && choose==2){
-                    lineBeingRead = lerArq.readLine();
-                    linhaDoPrograma++;
-                    continue;
-            }
-
             // Detecta qual a manipulação a ser usada (instruction to hexa ou hexa to instruction)
             // Se for de instruction para hexa
             if(choose==1){
@@ -117,49 +117,32 @@ public class HesselIntensifies {
         }
         
         return "Esta instrução não consta no nosso banco de dados";
-
     }
     
-    public static String hexaToInstruction(String line){
-        String binario = BaseConversions.FromHexa.toBinary(line);
+    public static String hexaToInstruction(String hexaValue){
+        if(!hexaValue.contains("0x")) return "Esse código em hexa não corresponde a nenhuma instrução.";
+        String binario = BaseConversions.FromHexa.toBinary(hexaValue);
         
-        String opcode = binario.substring(0,6);
-        String funct = binario.substring(26,32);
+        //Lê o opcode e o que *pode* ser o funct e passa para decimal.
+        String decimalOpcode = Integer.parseInt(binario.substring(0,6),2)+"";
+        String decimalPossibleFunct = Integer.parseInt(binario.substring(26,32), 2)+"";        
         
-        String decimalOpcode = Integer.parseInt(opcode,2)+"";
-        String decimalFunct = Integer.parseInt(funct, 2)+"";
-        
-        // Verifica se só possui uma instrução com o opcode
-        int cont = 0;
-        for (EnumInstrucao opc : EnumInstrucao.values()) {
-            if(opc.getOpcode().equals(decimalOpcode)){
-                opcode = opc+"";
-                cont++;
-            }
+        /* Verifica se é uma instrução tipo j (como só tem uma, vê se o opcode
+        é 2 de uma vez - se houvesse mais, era só fazer como é feito com as tipo
+        I). Se não for, verifica se é uma R pelo funct. Se não for, verifica se 
+        é uma tipo I.*/
+        for(EnumInstrucao instruction : EnumInstrucao.values())
+        {
+            if(instruction.getOpcode().equals("2"))
+                return InstructionFactory.TipoJ.hexaToAlphaNumerical(hexaValue);
+            if(instruction.getOpcode().equals(decimalOpcode)&&
+               instruction.getFunct().equals(decimalPossibleFunct))
+                return InstructionFactory.TipoR.hexaToAlphaNumerical(hexaValue);
+            if(instruction.getOpcode().equals(decimalOpcode)&&
+                    instruction.getTipo().equals("I"))
+                return InstructionFactory.TipoI.hexaToAlphaNumerical(hexaValue);
         }
-        
-        // Se tiver mais de uma instrução com o mesmo opcode, usa o funct para pegar a correta
-        if(cont > 1){
-            for (EnumInstrucao func : EnumInstrucao.values()) {
-                if(func.getFunct().equals(decimalFunct)){
-                    opcode = func+"";
-                    break;
-                }
-            }
-        }
-        
-        // Nenhuma instrução encontrada
-        if(cont==0) return "Este código hexa não representa nenhuma instrução no nosso banco de dados";
-        
-        // Verifica o tipo da instrução e chama o método apropriado
-        if (EnumInstrucao.valueOf(opcode).getTipo().equals("R")) {
-            return InstructionFactory.TipoR.hexaToAlphaNumerical(line.split("x")[1]);
-        } else if (EnumInstrucao.valueOf(opcode).getTipo().equals("I")) {
-            return InstructionFactory.TipoI.hexaToAlphaNumerical(line.split("x")[1]);
-        } else {
-            return InstructionFactory.TipoJ.hexaToAlphaNumerical(line.split("x")[1]);
-        }
-        
+        return "Esse código em hexa não corresponde a nenhuma instrução.";
     }
                  
     // Retira espaços em branco e textos desnecessários do arquivo (.text, .globl, ...)

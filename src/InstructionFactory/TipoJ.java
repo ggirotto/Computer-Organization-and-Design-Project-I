@@ -26,20 +26,20 @@ public abstract class TipoJ{
         
         //Pega o endereço associado à label como um inteiro 
         //(contado a partir de 0 em decimal indo de 4 em 4)
-        int jumpAddress = HesselIntensifies.labelAddresses.get(label);
-        
+        int jumpAddress = HesselIntensifies.labelAddresses.get(label)+8;
         
         String binOpcode = BaseConversions.FromDecimal.toBinaryUnsigned(opcode,6);
         String binTargetAddress = Integer.toBinaryString(Integer.parseInt("00400000", 16)+jumpAddress);
         while(binTargetAddress.length()<32) binTargetAddress="0"+binTargetAddress;
-        binTargetAddress = binTargetAddress.substring(4,binTargetAddress.length()-2);
+        String cutBinTargetAddress = binTargetAddress.substring(4,binTargetAddress.length()-2);
        
-        String toHexaTarget = binOpcode+binTargetAddress;
+        String toHexaTarget = binOpcode+cutBinTargetAddress;
         
         return BaseConversions.FromBinary.toHexa(toHexaTarget,8);
     }
     
     public static String hexaToAlphaNumerical(String toAlphaNumerical){
+        //pega com 0x
         String instructionAsBinary = BaseConversions.FromHexa.toBinary(toAlphaNumerical);
         String opcode=instructionAsBinary.substring(0,6);
         String address=("0000"+instructionAsBinary.substring(6)+"00").substring(12);
