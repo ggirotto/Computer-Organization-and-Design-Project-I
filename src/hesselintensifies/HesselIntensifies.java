@@ -154,11 +154,11 @@ public class HesselIntensifies {
         
         // Verifica o tipo da instrução e chama o método apropriado
         if (EnumInstrucao.valueOf(opcode).getTipo().equals("R")) {
-            return InstructionFactory.TipoR.hexaToAlphaNumerical(binario, opcode);
+            return InstructionFactory.TipoR.hexaToAlphaNumerical(line);
         } else if (EnumInstrucao.valueOf(opcode).getTipo().equals("I")) {
             return InstructionFactory.TipoI.hexaToAlphaNumerical(line);
         } else {
-            return InstructionFactory.TipoJ.hexaToAlphaNumerical(binario, opcode);
+            return InstructionFactory.TipoJ.hexaToAlphaNumerical(line);
         }
         
     }
