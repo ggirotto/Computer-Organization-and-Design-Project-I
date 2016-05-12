@@ -17,36 +17,41 @@ public class FromBinaryTest {
     
     public FromBinaryTest() {}
     
-
     @Test
-    public void toBinaryTest()
+    public void toDecimalSignedTest()
     {
-        String binary="101010";
-        assertEquals(binary,FromBinary.toBinary(binary));
+        String toDecimalSigned="0111";
+        assertEquals(FromBinary.toDecimalSigned(toDecimalSigned),"7");
+        toDecimalSigned="1111";
+        assertEquals(FromBinary.toDecimalSigned(toDecimalSigned),"-1");
+        toDecimalSigned="1101101";
+        assertEquals(FromBinary.toDecimalSigned(toDecimalSigned),"-19");
+        toDecimalSigned="111110";
+        assertEquals(FromBinary.toDecimalSigned(toDecimalSigned),"-2");
     }
     
     @Test
-    public void toDecimalTest()
+    public void toDecimalUnsigned()
     {
-        String binary ="0";
-        assertEquals("0",FromBinary.toDecimal(binary));
-        binary = "01";
-        assertEquals("1",FromBinary.toDecimal(binary));
-        binary = "11";
-        assertEquals("-1",FromBinary.toDecimal(binary));     
-        binary = "111000111";
-        assertEquals("-57",FromBinary.toDecimal(binary));
+        String toDecimalUnsigned="0111";
+        assertEquals(FromBinary.toDecimalUnsigned(toDecimalUnsigned),"7");
+        toDecimalUnsigned="1111";
+        assertEquals(FromBinary.toDecimalUnsigned(toDecimalUnsigned),"15");
+        toDecimalUnsigned="1101101";
+        assertEquals(FromBinary.toDecimalUnsigned(toDecimalUnsigned),"109");
+        toDecimalUnsigned="111110";
+        assertEquals(FromBinary.toDecimalUnsigned(toDecimalUnsigned),"62");
     }
     
     @Test
     public void toHexaTest()
     {
         String binary = "1111";
-        assertEquals("0xF",FromBinary.toHexa(binary));
+        assertEquals("0xf",FromBinary.toHexa(binary));
         binary = "0111";
         assertEquals("0x7",FromBinary.toHexa(binary));
         binary = "11110000101011100010";
-        assertEquals("0xF0AE2",FromBinary.toHexa(binary));
+        assertEquals("0xf0ae2",FromBinary.toHexa(binary));
     }
 
 }

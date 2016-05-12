@@ -17,22 +17,29 @@ public class FromHexaTest {
     public FromHexaTest() {
     }
 
-    @Test
-    public void testToHexa() {
-    }
-
-    @Test
-    public void testToBinary() {
-        String hexa = "0xFFF";
-        assertEquals("111111111111",FromHexa.toBinary(hexa));
-        hexa = "0x7EA9";
-        assertEquals("0111111010101001",FromHexa.toBinary(hexa));
+    @Test   
+    public void testToBinary()
+    {
+        String toBinary="0xF";
+        assertEquals(FromHexa.toBinary(toBinary),"1111");
+        toBinary="0xff";
+        assertEquals(FromHexa.toBinary(toBinary),"11111111");
+        toBinary="0xf01";
+        assertEquals(FromHexa.toBinary(toBinary),"111100000001");
+        toBinary="0x4f35ea";
+        assertEquals(FromHexa.toBinary(toBinary),"010011110011010111101010");
+        
     }
     
     @Test
-    public void testToDecimal(){
-        String decimal = "0xE";
-        assertEquals("14",FromHexa.toDecimal(decimal));
-    }
+    public void testToDecimalSigned()
+    {
+        String toDecimal="0x7";
+        assertEquals(FromHexa.toDecimalSigned(toDecimal),"7");
+        toDecimal="0xFF";
+        assertEquals(FromHexa.toDecimalSigned(toDecimal),"-1");
+        toDecimal="0x8F2E4D";
+        assertEquals(FromHexa.toDecimalSigned(toDecimal),"-7393715");
+    }    
     
 }

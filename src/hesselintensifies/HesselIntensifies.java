@@ -39,7 +39,7 @@ public class HesselIntensifies {
         BufferedReader lerArq = new BufferedReader(fileRead);
         String line = lerArq.readLine(); // lê a primeira linha
         while (line != null){
-            saveDistance(line);
+            //saveDistance(line);
             line = lerArq.readLine();
         }
         fileRead = new FileReader("teste.txt");
@@ -97,7 +97,7 @@ public class HesselIntensifies {
         }
         
         // Se não for, retorna uma mensagem
-        if(existe==false) return "Esta instrução não consta no nosso banco de dados";
+        if(!existe) return "Esta instrução não consta no nosso banco de dados";
         
         // Verifica o tipo da instrução e chama o método apropriado
         if (EnumInstrucao.valueOf(operacao).getTipo().equals("R")) {
@@ -153,32 +153,7 @@ public class HesselIntensifies {
         }
         
     }
-    
-    // Salva a distancia das labels e das operações que utilizam labels nos hashmaps
-    public static void saveDistance(String line){
-        if(line.contains("beq")){
-                distanceInstructions.put("beq"+iteratorCancer+"",iteratorDistance);
-                iteratorDistance++;
-                iteratorCancer++;
-        }else if(line.contains("bne")){
-            distanceInstructions.put("bne"+iteratorCancer+"",iteratorDistance);
-                iteratorDistance++;
-                iteratorCancer++;
-        }else if(line.contains("j")){
-            distanceInstructions.put("j"+iteratorCancer+"",iteratorDistance);
-                iteratorDistance++;
-                iteratorCancer++;
-        }else if(line.contains(":")){
-            distanceLabels.put(line.substring(0,line.indexOf(":")),iteratorDistance);
-            iteratorDistance++;
-        }else{
-            iteratorDistance++;
-        }
-                
-    }
-    
-    
-    
+                 
     // Retira espaços em branco e textos desnecessários do arquivo (.text, .globl, ...)
     public static boolean limpaCodigo(String linha){
         if(linha.equals("")) return false;
@@ -194,22 +169,22 @@ public class HesselIntensifies {
         linhaDoPrograma++;          
     }
     
-    public void SegundaPassada(String lineBeingRead, int choose)
-    {
-        if(!(lineBeingRead.contains(":")||lineBeingRead.contains(".")))
-            //todo adicionar a parte que processa o tipo de instrução (só ctrlc ctrlv)
-            if(lineBeingRead.contains("bne")||lineBeingRead.contains("beq"))
-                InstructionFactory.TipoI.alphaNumericalToHexa(
-     /*opcode*/     lineBeingRead.split(" ")[0]+
-     /*  rs  */     lineBeingRead.split(" ")[1].split(",")[0]+
-     /*  rt  */     lineBeingRead.split(" ")[1].split(",")[1]+
-     /*immediate*/  
-             /*TODO dar um jeito de botar aqui o immediate
-             no InstructionFactory, ele lê a label e não
-             processa as distâncias direito. O que tem que fazer é
-             alterar o InstructionFactory.tipoI para que ele use o hashMap
-             labelAddresses que a gente criou agora.
-             */
-                    );
-    }
+//    public void SegundaPassada(String lineBeingRead, int choose)
+//    {
+//        if(!(lineBeingRead.contains(":")||lineBeingRead.contains(".")))
+//            //todo adicionar a parte que processa o tipo de instrução (só ctrlc ctrlv)
+//            if(lineBeingRead.contains("bne")||lineBeingRead.contains("beq"))
+//                InstructionFactory.TipoI.alphaNumericalToHexa(
+//     /*opcode*/     lineBeingRead.split(" ")[0]+
+//     /*  rs  */     lineBeingRead.split(" ")[1].split(",")[0]+
+//     /*  rt  */     lineBeingRead.split(" ")[1].split(",")[1]+
+//     /*immediate*/  
+//             /*TODO dar um jeito de botar aqui o immediate
+//             no InstructionFactory, ele lê a label e não
+//             processa as distâncias direito. O que tem que fazer é
+//             alterar o InstructionFactory.tipoI para que ele use o hashMap
+//             labelAddresses que a gente criou agora.
+//             */
+//                    );
+//    }
 }

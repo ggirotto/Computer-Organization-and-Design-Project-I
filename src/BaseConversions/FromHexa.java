@@ -11,59 +11,36 @@ package BaseConversions;
  */
 public abstract class FromHexa{
     
-
-    public static String toHexa(String toHexa)
-    {
-        return toHexa;
-    }
-    
+    //FUNCIONANDO, NÃO MEXER MAIS
     public static String toBinary(String toBinary)
     {
         // Retira o '0x' da instrução em hexa
-        String newLine = toBinary.substring(2,toBinary.length());
         
-        String total = "";
-        String j;
+        String binaried="";
         
-        // Faz a conversão de cada elemento para binário.
-        for(int i=0; i<= newLine.length()-1; i++){
-            j = newLine.charAt(i)+"";
-            if(j.matches("[0-9]+")) total += FromDecimal.toBinary(j,4);
-            else {
-                switch(j.toLowerCase()){
-                    case "a":
-                        total += FromDecimal.toBinary("10",4);
-                        break;
-                    case "b":
-                        total += FromDecimal.toBinary("11",4);
-                        break;
-                    case "c":
-                        total += FromDecimal.toBinary("12",4);
-                        break;
-                    case "d":
-                        total += FromDecimal.toBinary("13",4);
-                        break;
-                    case "e":
-                        total += FromDecimal.toBinary("14",4);
-                        break;
-                    case "f":
-                        total += FromDecimal.toBinary("15",4);
-                        break;
-                    
-                }
-            }
+        for(char hexaDigit : toBinary.substring(2).toCharArray())
+        {   
+            String addToBinary=Integer.toBinaryString(Integer.parseInt(""+hexaDigit,16));
+            while(addToBinary.length()<4) addToBinary="0"+addToBinary;
+            binaried=binaried+addToBinary;
         }
-        return total;
+        return binaried;
     }
     
-    public static String toDecimal(String toDecimal)
+    //FUNCIONANDO, NÃO MEXER MAIS
+    public static String toDecimalSigned(String toDecimal)
     {
-        String fromHexaToDecimal="";
-        //Passa para binário primeiro, verificando se está em complemento de 2
-        if(toBinary(toDecimal).charAt(0)=='1')
-            fromHexaToDecimal="1"+FromBinary.toDecimal(TwoComplement.unTwoComplement(toDecimal));
-        else fromHexaToDecimal="0"+ FromBinary.toDecimal(toBinary(toDecimal));       
-        return fromHexaToDecimal;
+        String binaryToCheck = toBinary(toDecimal);
+        if(binaryToCheck.charAt(0)=='0') return ""+Integer.parseInt(toDecimal.substring(2),16);               
+        
+        return FromBinary.toDecimalSigned(binaryToCheck);
+    }
+    
+    //corta fora o 0x
+    //FUNCIONANDO, NÃO MEXER MAIS
+    public static String toDecimalUnsigned(String toDecimal)
+    {
+        return Integer.toString(Integer.parseInt(toDecimal.substring(2),16));        
     }
     
 }

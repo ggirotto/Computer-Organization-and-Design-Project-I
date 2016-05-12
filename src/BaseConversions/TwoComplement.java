@@ -7,67 +7,45 @@ package BaseConversions;
 */
 public abstract class TwoComplement {
     
-    /*Inverte todos os dígitos da string a ser convertida, passa para decimal,
-    soma 1, inverte de volta para binário e, se necessário, completa com os zeros.
-    Captura o caso especial do zero, em que da um overflow e tem que cortar fora
-    um digito.
-    Lembrando que recebe um valor binário unsigned e devolve um valor signed
-    em complemento de 2.
+    /*ISSO AQUI TUDO FUNCIONA
+    ALTERAR QUALQUER UM DESSES MÉTODOS CORRESPONDE A 1000 ANOS
+    NO FOGO DO INFERNO DAS ESCOVAS DE BITS
+    
+    o twocomplement recebe uma string EM DECIMAL a ser twocomplementada e devolve
+    uma string EM BINÁRIO adequadamente twcomplementada
+    
+    o untwocomplement recebe um valor em formato complemento de 2 (ou seja, só
+    realmente faz alguma coisa se o valor passado começar com um 1 pq daí é
+    negativo) e devolve um valor binário no tamanho desejado com o complemento de
+    2 removido, que no caso é o módulo do número.
     */
-    public static String twoComplement(String toTwoComplement){
-       
-       // Salva o valor na variável binario
-        String binario = toTwoComplement;
-        
-        // Cria uma nova string para concatenar o resultado
-        String newString = "";
-        
-        // Inverte os valroes do número binário. 1 vira 0 e 0 vira 1
-        for(int i=0; i<=binario.length()-1; i++){
-            if(binario.charAt(i)=='0') newString += "1";
-            if(binario.charAt(i)=='1') newString += "0";
-        }
-        
-        // Cria uma nova string para concatenar o resultado.
-        String finalString = "";
-        
-        int base = 0;
-        
-        // Caso para o último número da string
-        if(newString.charAt(newString.length()-1) == '0'){
-            finalString += "1";
-        }else{
-            finalString += "0";
-            base = 1;
-        }
-        
-        // Faz a soma do elemento na posição i com 1 + valor da base
-        for(int i=newString.length()-2; i>=0; i--){
-            if(newString.charAt(i) == '1' && base == 1){
-                finalString += "0";
-                base = 1;
-            }else if(newString.charAt(i) == '1' && base == 0){
-                finalString += "1";
-            }else if(newString.charAt(i) == '0' && base == 1){
-                finalString += "1";
-                base = 0;
-            }else finalString += newString.charAt(i);
-        }
-        
-        // Inverte a string
-        String reverse = new StringBuffer(finalString).reverse().toString();
-        
-        return reverse;
-
+    public static String twoComplement(String toTwoComplement,int desiredSize)
+    {
+        if(!(toTwoComplement.charAt(0)=='-')) return FromDecimal.toBinaryUnsigned(toTwoComplement,desiredSize);
+        String toOneComplement = Integer.toBinaryString(Integer.parseInt(toTwoComplement.substring(1)));
+        while(toOneComplement.length() < desiredSize) toOneComplement = "0"+toOneComplement;
+        String oneComplemented="";
+        for(char bit : toOneComplement.toCharArray())
+            oneComplemented=oneComplemented + (bit == '0' ? '1' : '0');
+        return Integer.toBinaryString(Integer.parseInt(oneComplemented,2)+1);       
     }
     
     /*
+    NÃO ALTERA ___NADA___ AQUI PELO AMOR DE DEUS
     Só aplica o complemento de 2 de novo. Recebe um valor signed representado
     em complemento de 2 e devolve um valor unsigned representado só em módulo.
-    */ 
-    public static String unTwoComplement(String twoComplemented)
+    */
+    
+    public static String unTwoComplement(String twoComplemented, int desiredSize)
     {
-        return twoComplement(twoComplemented);
+        if(twoComplemented.charAt(0)=='0') return twoComplemented;
+        String oneComplemented="";
+        for(char bit : twoComplemented.toCharArray())
+            oneComplemented=oneComplemented + (bit == '0' ? '1' : '0');
+        while(oneComplemented.length()<desiredSize) oneComplemented = "0"+oneComplemented;
+        String unTwoComplemented = Integer.toBinaryString(Integer.parseInt(oneComplemented,2)+1);
+        while(unTwoComplemented.length()<desiredSize) unTwoComplemented = "0"+unTwoComplemented;
+        return unTwoComplemented;
     }
     
     

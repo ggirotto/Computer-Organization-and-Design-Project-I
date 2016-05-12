@@ -32,7 +32,7 @@ public abstract class TipoJ{
         
         String immediate = ((HesselIntensifies.distanceLabels.get(label)) * 4)+"";
         
-        String BinOpcode = BaseConversions.FromDecimal.toBinary(opcode,6);
+        String BinOpcode = BaseConversions.FromDecimal.toBinaryUnsigned(opcode,6);
         
         // Passa o valor imediato para hexadecimal:
         String hexaImmediate = BaseConversions.FromDecimal.toHexaWAddres(immediate);

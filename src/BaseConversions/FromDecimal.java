@@ -11,10 +11,6 @@ package BaseConversions;
  */
 public abstract class FromDecimal{
     
-    public static String toDecimal(String toDecimal)
-    {
-        return toDecimal;
-    }
     
     public static String toHexaWAddres(String toHexa)
     {
@@ -22,38 +18,29 @@ public abstract class FromDecimal{
         
         String toHexaFromDecimal=Integer.toHexString(Integer.parseInt(toHexa));
         
-        // Adiciona os 0's necessários para completar uma operação em hexa (8 byts)
+        // Adiciona os 0's necessários para completar uma operação em hexa (8 bytes)
         for(int i=0; i<=(4-toHexaFromDecimal.length()); i++) toHexaFromDecimalFinal += "0";
         toHexaFromDecimalFinal+=toHexaFromDecimal;
         return toHexaFromDecimalFinal;
     }
     
-    public static String toBinary(String toBinary,int desiredSize)
+    //NÃO MEXER NISSO AQUI DE NOVO
+    public static String toBinaryUnsigned(String toBinary,int desiredSize)
     {
-        // Converte o valor para inteiro
-        int bin = Integer.parseInt(toBinary);
-        
-        // Passa para string novamente em valor binário
-        String binario;
-        if(toBinary.matches("-[0-9]+")) bin = Math.abs(-bin);
-        
-        binario = Integer.toBinaryString(bin);
-        
-        String retorno = "";
-        
-        /* Calcula o número de 0's necessários para se adicionar no início
-        da string para completar o número de bits da operação
-         Exemplo: opcode - 6bits
-        */
-        int novoNro = desiredSize - binario.length();
-        
-        // Adiciona os 0's
-        for(int i=1; i<= novoNro; i++) retorno += "0";
-        
-        // Adiciona o código cnovertido para binário aos 0's já adicionados
-        retorno += binario;
-        if(toBinary.matches("-[0-9]+")) return TwoComplement.twoComplement(retorno);
-        return retorno;
+        String unsignedBinary = Integer.toBinaryString(Integer.parseInt(toBinary));
+        while (unsignedBinary.length() < desiredSize) unsignedBinary = "0"+unsignedBinary;
+        return unsignedBinary;
+    }
+    
+    //Recebe um decimal!!
+    //NÃO CORTA O SINAL DE MENOS AQUI
+    //NÃO VOLTAR A MEXER NESSE MÉTODO
+    public static String toBinarySigned(String toBinary,int desiredSize)
+    {
+        if(toBinary.contains("-")) return TwoComplement.twoComplement(toBinary,desiredSize);          
+        String toBinaried=Integer.toBinaryString(Integer.parseInt(toBinary));
+        while(toBinaried.length()<desiredSize) toBinaried="0"+toBinaried;
+        return toBinaried;
     }
     
     

@@ -18,33 +18,25 @@ public class FromDecimalTest {
     }
 
     @Test
-    public void testToDecimal() {
-    }
-
-    @Test
-    public void testToHexa() {
-        String decimal = "64";
-        assertEquals("0x40",FromDecimal.toHexa(decimal));
-        decimal = "63";
-        assertEquals("0x3F",FromDecimal.toHexa(decimal));
-        decimal = "-63"; 
-        assertEquals("0x1",FromDecimal.toHexa(decimal));
-        decimal = "-64";
-        assertEquals("0x40",FromDecimal.toHexa(decimal));
-        decimal = "-683792";
-        assertEquals("0x590F0",FromDecimal.toHexa(decimal));    
-    }
-    
-    @Test
-    public void testToBinary()
+    public void testToBinarySigned()
     {
-        String decimal = "-63";
-        assertEquals("1000001",FromDecimal.toBinary(decimal));
-        decimal = "64";
-        assertEquals("01000000",FromDecimal.toBinary(decimal));
+        assertEquals(FromDecimal.toBinarySigned("128", 9),"010000000");
+        assertEquals(FromDecimal.toBinarySigned("129", 9),"010000001");
+        assertEquals(FromDecimal.toBinarySigned("127", 8),"01111111");
+        assertEquals(FromDecimal.toBinarySigned("-128", 8),"10000000");
+        assertEquals(FromDecimal.toBinarySigned("-129", 9),"101111111");
+        assertEquals(FromDecimal.toBinarySigned("-127", 8),"10000001");
     }
     
-    public class FromDecimalImpl extends FromDecimal {
+    @Test
+    
+    public void testToBinaryUnsigned()
+    {
+        assertEquals(FromDecimal.toBinaryUnsigned("128",8),"10000000");
+        assertEquals(FromDecimal.toBinaryUnsigned("127",8),"01111111");
+        assertEquals(FromDecimal.toBinaryUnsigned("129",8),"10000001");
+        assertEquals(FromDecimal.toBinaryUnsigned("63",6),"111111");
     }
+    
     
 }

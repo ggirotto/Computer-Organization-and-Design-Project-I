@@ -51,12 +51,12 @@ public abstract class TipoR{
             shamt = regs[2];
         }
      
-        String binOpcode = BaseConversions.FromDecimal.toBinary(opcode,6);
-        String binRs = BaseConversions.FromDecimal.toBinary(rs,5);
-        String binRt = BaseConversions.FromDecimal.toBinary(rt,5);
-        String binRd = BaseConversions.FromDecimal.toBinary(rd,5);
-        String binShamt = BaseConversions.FromDecimal.toBinary(shamt,5);
-        String binFunct = BaseConversions.FromDecimal.toBinary(funct,6);
+        String binOpcode = BaseConversions.FromDecimal.toBinaryUnsigned(opcode,6);
+        String binRs = BaseConversions.FromDecimal.toBinaryUnsigned(rs,5);
+        String binRt = BaseConversions.FromDecimal.toBinaryUnsigned(rt,5);
+        String binRd = BaseConversions.FromDecimal.toBinaryUnsigned(rd,5);
+        String binShamt = BaseConversions.FromDecimal.toBinaryUnsigned(shamt,5);
+        String binFunct = BaseConversions.FromDecimal.toBinaryUnsigned(funct,6);
         
         String hexaInstruction=FromBinary.toHexa(binOpcode+binRs+binRt+binRd+binShamt+binFunct);
                 
@@ -76,10 +76,10 @@ public abstract class TipoR{
         String funct = toAlphaNumericalAsBinary.substring(20,26);
 
         // Passa os valores de binário para decimal
-        rs = BaseConversions.FromBinary.toDecimal(rs);
-        rt = BaseConversions.FromBinary.toDecimal(rt);
-        rd = BaseConversions.FromBinary.toDecimal(rd);
-        shamt = BaseConversions.FromBinary.toDecimal(shamt);
+        rs = BaseConversions.FromBinary.toDecimalUnsigned(rs);
+        rt = BaseConversions.FromBinary.toDecimalUnsigned(rt);
+        rd = BaseConversions.FromBinary.toDecimalUnsigned(rd);
+        shamt = BaseConversions.FromBinary.toDecimalUnsigned(shamt);
 
         // Faz a busca nos enumeradores pelos registradores
         rs=EnumRegistradores.values()[Integer.parseInt(rs)]+"";

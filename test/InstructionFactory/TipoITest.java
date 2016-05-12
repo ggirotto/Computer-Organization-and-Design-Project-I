@@ -19,8 +19,8 @@ public class TipoITest {
 
     @Test
     public void testAlphaNumericalToHexa() {
-        String toHexa="addi $t0,$k0,12";
-        assertEquals(InstructionFactory.TipoI.alphaNumericalToHexa(toHexa),"0x2348000C");
+        String toHexa="addi $t0,$v0,";
+        assertEquals(InstructionFactory.TipoI.alphaNumericalToHexa(toHexa),"0x20481900");
     }
 
     @Test

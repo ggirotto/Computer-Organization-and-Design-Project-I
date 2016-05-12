@@ -11,78 +11,29 @@ package BaseConversions;
  */
 public abstract class FromBinary{
     
-    public static String toBinary(String toBinary)
-    {
-        return toBinary;
-    }
-    
+    //FUNCIONANDO (tem como dar errado?)
     public static String toDecimalUnsigned (String toDecimal)
     {
         return ""+Integer.parseInt(toDecimal,2);
     }
-            
-    public static String toDecimal(String toDecimal)
+    
+    /*Recebe um valor binário representado em complemento de 2 (com sinal)
+        e devolve um vlaor decimal com o sinal ajustado
+    */
+    
+    //FUNCIONANDO, NÃO MEXER MAIS;
+    public static String toDecimalSigned(String toDecimal)
     {
-        String toDecimaled = "";
         if(toDecimal.charAt(0)=='1')
-        {
-            toDecimal = TwoComplement.unTwoComplement(toDecimal);
-            toDecimaled += "-";         
-        }
+            return "-"+Integer.parseInt(TwoComplement.unTwoComplement(toDecimal,32),2);         
         
-        toDecimaled+=Integer.parseInt(toDecimal,2);
-        
-        return toDecimaled;        
+        return ""+Integer.parseInt(toDecimal,2);
     }
     
+    //FUNCIONANDO, NÃO MEXER MAIS
     public static String toHexa(String toHexa)
     {
-        String result = "";
-        /*  Separa a string total em 7 partes de 4 caracteres.
-            Para cada parte, faz a conversão para hexadecimal
-            Aplica este valor final na string retorno
-        */
-        
-        int i = 0;
-        int base = 0;
-        int calc = 0;
-        
-        while(i<=28){
-            String sub = toHexa.substring(i, i+4);
-            for(int j=3; j>=0; j--){
-                int val = Character.getNumericValue(sub.charAt(j));
-                calc += val * Math.pow(2,base);
-                base++;
-            }
-            switch(calc){
-                case 10:
-                    result += "a";
-                    break;
-                case 11:
-                    result += "b";
-                    break;
-                case 12:
-                    result += "c";
-                    break;
-                case 13:
-                    result += "d";
-                    break;
-                case 14:
-                    result += "e";
-                    break;
-                case 15:
-                    result += "f";
-                    break;
-                default:
-                    result += calc;
-            }
-            calc = 0;
-            i+=4;
-            base=0;
-        }
-        
-               
-        return result;
+        return "0x"+Integer.toString(Integer.parseInt(toHexa,2),16);
     }
     
 }

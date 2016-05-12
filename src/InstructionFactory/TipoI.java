@@ -58,10 +58,10 @@ public abstract class TipoI{
             immediate = distancia;
         }
 
-        String binOpcode= BaseConversions.FromDecimal.toBinary(opcode,6);
-        String binRs = BaseConversions.FromDecimal.toBinary(rs,5);
-        String binRt = BaseConversions.FromDecimal.toBinary(rt,5);
-        String binImmediate = BaseConversions.FromDecimal.toBinary(immediate,16);
+        String binOpcode= BaseConversions.FromDecimal.toBinaryUnsigned(opcode,6);
+        String binRs = BaseConversions.FromDecimal.toBinaryUnsigned(rs,5);
+        String binRt = BaseConversions.FromDecimal.toBinaryUnsigned(rt,5);
+        String binImmediate = BaseConversions.FromDecimal.toBinarySigned(immediate,16);
         
         String hexaInstruction=FromBinary.toHexa(binOpcode+binRs+binRt+binImmediate);
         
@@ -102,8 +102,8 @@ public abstract class TipoI{
                     distanciaInstrucao = entry.getValue();
                 }else continue;
                 
-                if(immediate.charAt(0) == '1') distanciaFinal = (distanciaInstrucao - Integer.parseInt(BaseConversions.FromBinary.toDecimal(immediate)))-1;
-                else distanciaFinal = (distanciaInstrucao + Integer.parseInt(BaseConversions.FromBinary.toDecimal(immediate)))+1;
+                if(immediate.charAt(0) == '1') distanciaFinal = (distanciaInstrucao - Integer.parseInt(BaseConversions.FromBinary.toDecimalSigned(immediate)))-1;
+                else distanciaFinal = (distanciaInstrucao + Integer.parseInt(BaseConversions.FromBinary.toDecimalSigned(immediate)))+1;
 
                 // Pega a label a partir do valor encontrado
                 Map<String,Integer> distanceLabels = HesselIntensifies.distanceLabels;
@@ -128,7 +128,7 @@ public abstract class TipoI{
         }else{
             IInstructionAsString+= EnumRegistradores.values()[Integer.parseInt(BaseConversions.FromBinary.toDecimalUnsigned(rs))].toString()+",";
             IInstructionAsString+= EnumRegistradores.values()[Integer.parseInt(BaseConversions.FromBinary.toDecimalUnsigned(rt))].toString()+",";
-            if(immediate.charAt(0)=='1') immediate = "-"+TwoComplement.twoComplement(immediate);
+            if(immediate.charAt(0)=='1') immediate = "-"+TwoComplement.twoComplement(immediate,16);
             IInstructionAsString+= BaseConversions.FromBinary.toDecimalUnsigned(immediate);
 
             return IInstructionAsString;
