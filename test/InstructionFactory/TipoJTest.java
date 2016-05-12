@@ -17,16 +17,22 @@ import org.junit.Before;
 public class TipoJTest {
     
     public TipoJTest() {}
-
-    @Test
-    public void testAlphaNumericalToHexa() {
+    
+    @Before
+    public void populateAddresses(){
         for(int i=0;i<100;i++) HesselIntensifies.labelAddresses.put("vinicius"+i, i*4);
-        String toHexa="j vinicius20";
-        assertEquals(InstructionFactory.TipoJ.alphaNumericalToHexa(toHexa),"0x08100014");
     }
+
+//    @Test
+//    public void testAlphaNumericalToHexa() {   
+//        String toHexa="j vinicius20";
+//        assertEquals(InstructionFactory.TipoJ.alphaNumericalToHexa(toHexa),"0x08100014");
+//    }
 
     @Test
     public void testHexaToAlphaNumerical() {
+        String toAlphaN="0x0810000d";
+        assertEquals(InstructionFactory.TipoJ.hexaToAlphaNumerical(toAlphaN),"j vinicius13");
     }
     
 }

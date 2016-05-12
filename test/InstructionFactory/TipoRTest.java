@@ -31,8 +31,10 @@ public class TipoRTest {
 
     @Test
     public void testHexaToAlphaNumerical(){
-       String testInstruction= "0x00474020";
-       assertEquals("add $t0,$v0,$a3",InstructionFactory.TipoR.hexaToAlphaNumerical(testInstruction, "add"));
+       String testInstruction= "0x03b74820";
+       assertEquals(InstructionFactory.TipoR.hexaToAlphaNumerical(testInstruction),"add $t1,$sp,$s7");
+       testInstruction="0x00023342";
+       assertEquals(InstructionFactory.TipoR.hexaToAlphaNumerical(testInstruction),"srl $a2,$v0,13");
     }
 
     

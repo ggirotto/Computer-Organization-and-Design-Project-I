@@ -60,42 +60,39 @@ public abstract class TipoR{
         
         String hexaInstruction=FromBinary.toHexa(binOpcode+binRs+binRt+binRd+binShamt+binFunct,8);
                 
-        return "0x"+hexaInstruction;
+        return hexaInstruction;
     }
     
-    public static String hexaToAlphaNumerical(String toAlphaNumerical, String opcode){
-        // Retira o opcode do código binário
-        String toAlphaNumericalAsBinary = BaseConversions.FromHexa.toBinary(toAlphaNumerical);
-        toAlphaNumericalAsBinary = toAlphaNumericalAsBinary.substring(6,toAlphaNumericalAsBinary.length());
-
-        // Separa os valores de cada registrador, shamt e funct do número binário total
-        String rs = toAlphaNumericalAsBinary.substring(0,5);
-        String rt = toAlphaNumericalAsBinary.substring(5,10);
-        String rd = toAlphaNumericalAsBinary.substring(10,15);
-        String shamt = toAlphaNumericalAsBinary.substring(15,20);
-        String funct = toAlphaNumericalAsBinary.substring(20,26);
-
-        // Passa os valores de binário para decimal
-        rs = BaseConversions.FromBinary.toDecimalUnsigned(rs);
-        rt = BaseConversions.FromBinary.toDecimalUnsigned(rt);
-        rd = BaseConversions.FromBinary.toDecimalUnsigned(rd);
-        shamt = BaseConversions.FromBinary.toDecimalUnsigned(shamt);
-        funct = BaseConversions.FromBinary.toDecimalUnsigned(funct);
-
-        // Faz a busca nos enumeradores pelos registradores
-        rs=EnumRegistradores.values()[Integer.parseInt(rs)]+"";
-        rt=EnumRegistradores.values()[Integer.parseInt(rt)]+"";
-        rd=EnumRegistradores.values()[Integer.parseInt(rd)]+"";
-   
-        /*
-            Faz a montagem da instrução. Se for uma instrução de deslocamento de bits (sll ou slt)
-            faz a montagem com o shamt, caso contrario, monta com os 3 registradores.
-        */
-        String instructionAsAlphaNumerical="";
-        if(opcode.equals("sll") || opcode.equals("slt"))
-            instructionAsAlphaNumerical = opcode+" "+rd+","+rt+","+shamt;
-        else instructionAsAlphaNumerical = opcode+" "+rd+","+rs+","+rt;
-       
-        return instructionAsAlphaNumerical;
+    //supondo que eu já to recebendo uma tipo R
+    public static String hexaToAlphaNumerical(String toAlphaNumerical){
+        
+        //passa tudo para binário e localiza a operação
+        String rInstructionAsBinary = BaseConversions.FromHexa.toBinary(toAlphaNumerical);
+        
+        String opcode = BaseConversions.FromBinary.toDecimalUnsigned(rInstructionAsBinary.substring(0,6)); 
+        String rs = EnumRegistradores.values()[Integer.parseInt
+        (BaseConversions.FromBinary.toDecimalUnsigned(rInstructionAsBinary.substring(6,11)))].toString();
+        String rt = EnumRegistradores.values()[Integer.parseInt
+        (BaseConversions.FromBinary.toDecimalUnsigned(rInstructionAsBinary.substring(11,16)))].toString();
+        String rd = EnumRegistradores.values()[Integer.parseInt
+        (BaseConversions.FromBinary.toDecimalUnsigned(rInstructionAsBinary.substring(16,21)))].toString();
+        String shamt = BaseConversions.FromBinary.toDecimalUnsigned(rInstructionAsBinary.substring(21,26));
+        String funct = BaseConversions.FromBinary.toDecimalUnsigned(rInstructionAsBinary.substring(26,32));
+        
+        String operation = "";
+        
+        for(EnumInstrucao instruction : EnumInstrucao.values())
+            if(instruction.getOpcode().equals(opcode))
+                if(instruction.getFunct().equals(funct))
+                {
+                    operation = instruction.toString();
+                    break;
+                }
+        //verifica se é srl/sll para ver oq deve ser retornado
+        if(operation.equals("srl")||operation.equals("sll"))
+            return operation+" "+rd+","+rt+","+shamt;    
+        //caso contrário...
+     
+        return operation+" "+rd+","+rs+","+rt;        
     }
 }
