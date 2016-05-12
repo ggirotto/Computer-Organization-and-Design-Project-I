@@ -19,16 +19,16 @@ public class TipoITest {
     public TipoITest() {
     }
 
-//    @Before
-//    public void populateLabelAddresses(){
-//        for(int i=0;i<10000;i++) HesselIntensifies.labelAddresses.put("vinicius"+i, i*4);
-//    }
+    @Before
+    public void populateLabelAddresses(){
+        HesselIntensifies.labelAddresses.put("saoIguais", 14*4);
+    }
     
-//    @Test
-//    public void testAlphaNumericalToHexa() {
-//        String toHexa="beq $t0,$t0,vinicius19";
-//        assertEquals(InstructionFactory.TipoI.alphaNumericalToHexa(toHexa,0),"0x11080002");
-//    }
+    @Test
+    public void testAlphaNumericalToHexa() {
+        String toHexa="addi $t1,$a2,15";
+        assertEquals(InstructionFactory.TipoI.alphaNumericalToHexa(toHexa),"0x20c9000f");
+    }
 
     @Test
     public void testHexaToAlphaNumerical() {

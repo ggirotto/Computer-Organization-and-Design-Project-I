@@ -20,12 +20,8 @@ public class HesselIntensifies {
     
     public static int linhaDoPrograma=0;
     public static PrintWriter writer;
+    // Hash Map que salva as labels e sua linha*4
     public static Map<String,Integer> labelAddresses = new HashMap<>();
-    // Hash Map que salva as labels e sua distancia do inicio do programa
-    public static Map<String, Integer> distanceLabels = new HashMap<>();
-    // Hash Map que salva as instruções e sua distancia do inicio do programa
-    public static Map<String, Integer> distanceInstructions = new HashMap<>();
-    // Variavel para adicionar a distancia nos dois hashMaps
     
      public static void main(String[] args) throws IOException{
         writer  = new PrintWriter("saida.txt", "UTF-8");
@@ -37,50 +33,63 @@ public class HesselIntensifies {
         FileReader fileRead = new FileReader("teste.txt");
         
         BufferedReader lerArq = new BufferedReader(fileRead);
-        String line = lerArq.readLine(); // lê a primeira linha
-        while (line != null){
-            //saveDistance(line);
-            line = lerArq.readLine();
-        }
-        fileRead = new FileReader("teste.txt");
-        lerArq = new BufferedReader(fileRead);
-        line = lerArq.readLine(); // lê a primeira linha
-        while (line != null) {
-            boolean validLine = limpaCodigo(line);
-            if(validLine == false){
-                if(line.equals("")){
-                    line = lerArq.readLine();
-                    continue;
-                }
-                writer.println(line);
-                line = lerArq.readLine();
-                continue;
-            }
-            if(line.substring(0, 2).equals("0x") && choose==1){
-                line = lerArq.readLine();
-                continue;
-            }
-            else if(!(line.substring(0, 2).equals("0x")) && choose==2){
-                line = lerArq.readLine();
-                continue;
-            }
-            else{
-                if(choose==1){
-                    String result = instructionToHexa(line,0); //dar um jeito nisso
-                    writer.println(result);
-                }else{
-                    String result = hexaToInstruction(line);
-                    writer.println(result);
-                }
-            }
-            
-            line = lerArq.readLine();
+        String lineBeingRead = lerArq.readLine(); // lê a primeira linha
+        
+        // Primeira passada que recolhe as informações das labels
+        while (lineBeingRead != null){
+            PrimeiraPassada(lineBeingRead);
+            lineBeingRead = lerArq.readLine();
         }
         
-        writer.close();
-    }
+        linhaDoPrograma = 0;
+        
+        // Volta para o inicio do arquivo
+        fileRead = new FileReader("teste.txt");
+        lerArq = new BufferedReader(fileRead);
+        lineBeingRead = lerArq.readLine(); // lê a primeira linha
+        
+        
+        //Segunda Passada
+        while (lineBeingRead != null) {
+            if(!(limpaCodigo(lineBeingRead))){
+                writer.println(lineBeingRead);
+                lineBeingRead = lerArq.readLine();
+                continue;
+            }
+            
+            //Detecta instruções em hexa com a opção instruction to hexa ligada
+            if(lineBeingRead.substring(0, 2).equals("0x") && choose==1){
+                    lineBeingRead = lerArq.readLine();
+                    linhaDoPrograma++;
+                    continue;
+            }
 
-    public static String instructionToHexa(String line, int lineNumber) {
+            //Detecta instruções com a opção hexa to instruction ligada
+            if(!(lineBeingRead.substring(0, 2).equals("0x")) && choose==2){
+                    lineBeingRead = lerArq.readLine();
+                    linhaDoPrograma++;
+                    continue;
+            }
+
+            // Detecta qual a manipulação a ser usada (instruction to hexa ou hexa to instruction)
+            // Se for de instruction para hexa
+            if(choose==1){
+                String result = instructionToHexa(lineBeingRead);
+                linhaDoPrograma++;
+                writer.println(result);
+            }else{
+                String result = hexaToInstruction(lineBeingRead);
+                linhaDoPrograma++;
+                writer.println(result);
+            }
+            
+            lineBeingRead = lerArq.readLine();
+            writer.close();
+        }
+                
+    }
+         
+    public static String instructionToHexa(String line) {
         
         // Separa as informações da linha por espaço
         String[] parts = line.split(" ");
@@ -162,29 +171,10 @@ public class HesselIntensifies {
         return true;
     }
     
-    public void PrimeiraPassada(String lineBeingRead)
+    public static void PrimeiraPassada(String lineBeingRead)
     {
         if(lineBeingRead.contains(":"))
             labelAddresses.put(lineBeingRead.split(":")[0],linhaDoPrograma*4);
         linhaDoPrograma++;          
     }
-    
-//    public void SegundaPassada(String lineBeingRead, int choose)
-//    {
-//        if(!(lineBeingRead.contains(":")||lineBeingRead.contains(".")))
-//            //todo adicionar a parte que processa o tipo de instrução (só ctrlc ctrlv)
-//            if(lineBeingRead.contains("bne")||lineBeingRead.contains("beq"))
-//                InstructionFactory.TipoI.alphaNumericalToHexa(
-//     /*opcode*/     lineBeingRead.split(" ")[0]+
-//     /*  rs  */     lineBeingRead.split(" ")[1].split(",")[0]+
-//     /*  rt  */     lineBeingRead.split(" ")[1].split(",")[1]+
-//     /*immediate*/  
-//             /*TODO dar um jeito de botar aqui o immediate
-//             no InstructionFactory, ele lê a label e não
-//             processa as distâncias direito. O que tem que fazer é
-//             alterar o InstructionFactory.tipoI para que ele use o hashMap
-//             labelAddresses que a gente criou agora.
-//             */
-//                    );
-//    }
 }
