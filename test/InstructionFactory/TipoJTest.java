@@ -23,16 +23,16 @@ public class TipoJTest {
         for(int i=0;i<20;i++) HesselIntensifies.labelAddresses.put("vinicius"+i, i*4);
     }
 
-    @Test
-    public void testAlphaNumericalToHexa() {   
-        String toHexa="j vinicius15";
-        assertEquals(InstructionFactory.TipoJ.alphaNumericalToHexa(toHexa),"0x0810000f");
-    }
-
 //    @Test
-//    public void testHexaToAlphaNumerical() {
-//        String toAlphaN="0x0810000d";
-//        assertEquals(InstructionFactory.TipoJ.hexaToAlphaNumerical(toAlphaN),"j vinicius13");
+//    public void testAlphaNumericalToHexa() {   
+//        String toHexa="j vinicius15";
+//        assertEquals(InstructionFactory.TipoJ.alphaNumericalToHexa(toHexa),"0x0810000f");
 //    }
+
+    @Test
+    public void testHexaToAlphaNumerical() {
+        String toAlphaN="0x0810000a";
+        assertEquals(InstructionFactory.TipoJ.hexaToAlphaNumerical(toAlphaN),"j vinicius10");
+    }
     
 }

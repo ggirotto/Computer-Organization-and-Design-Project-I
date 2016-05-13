@@ -42,7 +42,11 @@ public abstract class TipoJ{
         //pega com 0x
         String instructionAsBinary = BaseConversions.FromHexa.toBinary(toAlphaNumerical);
         String opcode=instructionAsBinary.substring(0,6);
-        String address=("0000"+instructionAsBinary.substring(6)+"00").substring(12);
+        String address="0000"+instructionAsBinary.substring(6)+"00";
+        address=BaseConversions.FromBinary.toHexa(address, 8);
+        //address= 0x00400000 + número de instruções
+        address= ""+(Integer.parseInt(address.substring(2),16)-Integer.parseInt("00400000",16));
+        
         opcode = BaseConversions.FromBinary.toDecimalUnsigned(opcode);
         for(EnumInstrucao instruction : EnumInstrucao.values())
             if(instruction.getOpcode().equals(opcode)) 
@@ -50,7 +54,8 @@ public abstract class TipoJ{
                 opcode = instruction.toString();
                 break;
             }
-        long addressAsInt = Long.parseLong(address,2);
+        
+        int addressAsInt = Integer.parseInt(address);
         for(String label : HesselIntensifies.labelAddresses.keySet())
             if(HesselIntensifies.labelAddresses.get(label)==addressAsInt)
                 address = label;

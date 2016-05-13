@@ -133,13 +133,14 @@ public class HesselIntensifies {
         é uma tipo I.*/
         for(EnumInstrucao instruction : EnumInstrucao.values())
         {
-            if(instruction.getOpcode().equals("2"))
+            if(instruction.getOpcode().equals(decimalOpcode)&&
+               instruction.getTipo().equals("J"))
                 return InstructionFactory.TipoJ.hexaToAlphaNumerical(hexaValue);
             if(instruction.getOpcode().equals(decimalOpcode)&&
                instruction.getFunct().equals(decimalPossibleFunct))
                 return InstructionFactory.TipoR.hexaToAlphaNumerical(hexaValue);
             if(instruction.getOpcode().equals(decimalOpcode)&&
-                    instruction.getTipo().equals("I"))
+               instruction.getTipo().equals("I"))
                 return InstructionFactory.TipoI.hexaToAlphaNumerical(hexaValue);
         }
         return "Esse código em hexa não corresponde a nenhuma instrução.";
