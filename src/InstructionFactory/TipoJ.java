@@ -45,7 +45,7 @@ public abstract class TipoJ{
         String address="0000"+instructionAsBinary.substring(6)+"00";
         address=BaseConversions.FromBinary.toHexa(address, 8);
         //address= 0x00400000 + número de instruções
-        address= ""+(Integer.parseInt(address.substring(2),16)-Integer.parseInt("00400000",16));
+        address= ""+(Integer.parseInt(address.substring(2),16)-Integer.parseInt("00400000",16)-8);
         
         opcode = BaseConversions.FromBinary.toDecimalUnsigned(opcode);
         for(EnumInstrucao instruction : EnumInstrucao.values())

@@ -120,7 +120,7 @@ public abstract class TipoI{
         */
         
         //Vê primeiro se é sw/lw
-        if(opcode.equals("sw")||opcode.equals("lw")) 
+        if(opcode.equals("sw")||opcode.equals("lw"))
             return opcode+" "+rt+","+immediate+"("+rs+")";
         //Depois, vê se é uma "comum" (mais fácil de ler o código)
         if(!(opcode.equals("bne")||opcode.equals("beq")))

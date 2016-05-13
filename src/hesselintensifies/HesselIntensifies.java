@@ -137,11 +137,12 @@ public class HesselIntensifies {
                instruction.getTipo().equals("J"))
                 return InstructionFactory.TipoJ.hexaToAlphaNumerical(hexaValue);
             if(instruction.getOpcode().equals(decimalOpcode)&&
-               instruction.getFunct().equals(decimalPossibleFunct))
-                return InstructionFactory.TipoR.hexaToAlphaNumerical(hexaValue);
-            if(instruction.getOpcode().equals(decimalOpcode)&&
                instruction.getTipo().equals("I"))
                 return InstructionFactory.TipoI.hexaToAlphaNumerical(hexaValue);
+            if(instruction.getOpcode().equals(decimalOpcode)&&
+               instruction.getFunct().equals(decimalPossibleFunct))
+                return InstructionFactory.TipoR.hexaToAlphaNumerical(hexaValue);
+           
         }
         return "Esse código em hexa não corresponde a nenhuma instrução.";
     }

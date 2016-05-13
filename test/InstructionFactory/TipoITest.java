@@ -24,14 +24,16 @@ public class TipoITest {
         HesselIntensifies.labelAddresses.put("saoIguais", 14*4);
     }
     
-    @Test
-    public void testAlphaNumericalToHexa() {
-        String toHexa="addi $t1,$a2,15";
-        assertEquals(InstructionFactory.TipoI.alphaNumericalToHexa(toHexa),"0x20c9000f");
-    }
+//    @Test
+//    public void testAlphaNumericalToHexa() {
+//        String toHexa="addi $t1,$a2,15";
+//        assertEquals(InstructionFactory.TipoI.alphaNumericalToHexa(toHexa),"0x20c9000f");
+//    }
 
-    @Test
+    @Test   
     public void testHexaToAlphaNumerical() {
+        String toAN = "0x8d090000";
+        assertEquals(InstructionFactory.TipoI.hexaToAlphaNumerical(toAN),"lw $t1,0($t0)");
     }
     
 }

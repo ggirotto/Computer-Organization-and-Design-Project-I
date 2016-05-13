@@ -5,18 +5,20 @@ Esta instrução não consta no nosso banco de dados
 Esta instrução não consta no nosso banco de dados
 Esta instrução não consta no nosso banco de dados
 mainhere:
-0x8d280000
-0x8d6a0000
+0x8d090000
+0x8d4b0000
 0x27bd000c
-0xad3d0000
-0xad7d0004
-0xad9d0008
+0xafa90000
+0x11090004
+0xafab0004
+0xafac0008
 Esta instrução não consta no nosso banco de dados
 Esta instrução não consta no nosso banco de dados
 compare:
-0x8c9d0000
-0x8cbd0004
-0x8cdd0008
+0x1109fff6
+0x8fa40000
+0x8fa50004
+0x8fa60008
 0x27bdfff4
 Esta instrução não consta no nosso banco de dados
 Esta instrução não consta no nosso banco de dados
