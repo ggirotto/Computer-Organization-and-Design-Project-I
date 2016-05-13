@@ -1,6 +1,10 @@
 package Enumerations;
 
 public enum EnumInstrucao {
+    /*
+    Formato: instrucao("tipo", "opcode", "funct")
+    */
+    
     add("R","0","32"),
     addi("I","8","0"),
     addu("R","0","33"),

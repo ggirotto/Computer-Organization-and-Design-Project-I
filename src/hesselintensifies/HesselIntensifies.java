@@ -6,16 +6,6 @@ import Enumerations.*;
 import java.io.*;
 import java.util.Scanner;
 
-/*
-  todo onde quer que a gente ponha o PrimeiraPassada() e o SegundaPassada(),
-  tem que resetar o linhaDoPrograma entre eles e reinicializar o inputstream
-  while(inputStream.hasNextLine() PrimeiraPassada(inputStream.nextLine());
-  linhaDoPrograma=0;
-  inputStream = REINICIALIZA INPUT STREAM
-  while(inputStream.hasNextLine() SegundaPassada(inputStream.nextLine());
-  
-*/
-
 public class HesselIntensifies {
     
     public static int linhaDoPrograma=0;
@@ -25,7 +15,13 @@ public class HesselIntensifies {
     
      public static void main(String[] args) throws IOException{
         Scanner in = new Scanner(System.in);
-        //Perguntar se quer passar de codigo para hexa ou de hexa para codigo
+        /*
+            Função main pergunta o tipo de conversão a ser feita.
+            Aqui também é chamado o método primeiraPassada, que armazena as labels e sua linha*4.
+            Chama o métodod apropriado com a conversão desejada (instruciton to hexa ou vice-versa)
+            Imprime o resultado da conversão em um arquivo txt
+        
+        */
         System.out.println("1. Código para Hexa");
         System.out.println("2. Hexa para código");
         int choose = Integer.parseInt(in.nextLine());
@@ -90,6 +86,11 @@ public class HesselIntensifies {
          
     public static String instructionToHexa(String line) {
         
+        /*
+            Pega o opcode da operação e chama o método instructionToHexa da 
+            classe do tipo que a instrução pertence (R, I ou J)
+        */
+        
         // Separa as informações da linha por espaço
         String[] parts = line.split(" ");
 
@@ -120,6 +121,7 @@ public class HesselIntensifies {
     }
     
     public static String hexaToInstruction(String hexaValue){
+        
         if(!hexaValue.contains("0x")) return "Esse código em hexa não corresponde a nenhuma instrução.";
         String binario = BaseConversions.FromHexa.toBinary(hexaValue);
         
@@ -147,7 +149,7 @@ public class HesselIntensifies {
         return "Esse código em hexa não corresponde a nenhuma instrução.";
     }
                  
-    // Retira espaços em branco e textos desnecessários do arquivo (.text, .globl, ...)
+    // Retira linhas em branco e textos desnecessários do arquivo (.text, .globl, ...)
     public static boolean limpaCodigo(String linha){
         if(linha.equals("")) return false;
         if(linha.contains(".")) return false;
@@ -155,6 +157,7 @@ public class HesselIntensifies {
         return true;
     }
     
+    // Salva as labels e sua linha*4;
     public static void PrimeiraPassada(String lineBeingRead)
     {
         if(lineBeingRead.contains(":"))

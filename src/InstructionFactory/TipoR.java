@@ -45,12 +45,13 @@ public abstract class TipoR{
         if (regs[2].contains("$")) {
             rt = EnumRegistradores.valueOf(regs[2]).ordinal()+"";
         } else {
-            
             rt = rs;
             rs = "0";
             shamt = regs[2];
         }
-     
+        
+        // Passa os valroes para binario
+        
         String binOpcode = BaseConversions.FromDecimal.toBinaryUnsigned(opcode,6);
         String binRs = BaseConversions.FromDecimal.toBinaryUnsigned(rs,5);
         String binRt = BaseConversions.FromDecimal.toBinaryUnsigned(rt,5);
@@ -58,6 +59,7 @@ public abstract class TipoR{
         String binShamt = BaseConversions.FromDecimal.toBinaryUnsigned(shamt,5);
         String binFunct = BaseConversions.FromDecimal.toBinaryUnsigned(funct,6);
         
+        //Passa para hexa os binarios concatenados
         String hexaInstruction=FromBinary.toHexa(binOpcode+binRs+binRt+binRd+binShamt+binFunct,8);
                 
         return hexaInstruction;
